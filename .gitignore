@@ -1,0 +1,20 @@
+# Dependencies
+node_modules/
+
+# Build
+.svelte-kit/
+build/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Environment Variables
+.env
+.env.*
+!.env.example
+!.env.test
+
+# Vite
+vite.config.js.timestamp-*
+vite.config.ts.timestamp-*
