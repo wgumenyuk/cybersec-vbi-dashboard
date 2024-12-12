@@ -7,6 +7,10 @@ export default {
 	content: ["./src/**/*.{html,js,svelte,ts}"],
 	plugins: [typography],
 	theme: {
-		extend: {}
+		extend: {
+			fontFamily: {
+				sans: "Roboto, sans-serif"
+			}
+		}
 	}
 } satisfies Config;
