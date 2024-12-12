@@ -1,0 +1,35 @@
+Company,Symbol,Date,Type,Affected,Source
+Adobe,ADBE,03-10-2013,Data Breach,38.000.000,https://www.bbc.com/news/technology-24740873
+Atlassian,TEAM,15-02-2023,Operational Breach,Unknown,https://www.bleepingcomputer.com/news/security/atlassian-data-leak-caused-by-stolen-employee-credentials/
+Capital One,COF,19-07-2019,"Data Breach, Insider Breach",106.000.000,https://www.bankingdive.com/news/capital-one-breach-exposes-106m-customers-data/559844/
+Cloudflare,NET,23-11-2023,"Operational Breach, Code Breach",Unknown,https://blog.cloudflare.com/thanksgiving-2023-security-incident/
+Comcast,CMCSA,16-11-2023,Data Breach,36.000.000,https://techcrunch.com/2023/12/19/comcast-xfinity-hackers-36-million-customers/
+CrowdStrike Holdings,CRWD,,Availability Compromise,,
+Datadog,DDOG,16-01-2023,Credential Breach,Unknown,https://www.bleepingcomputer.com/news/security/datadog-rotates-rpm-signing-key-exposed-in-circleci-hack/
+Dave,DAVE,24-07-2020,Data Breach,7.500.000,https://www.bankingdive.com/news/dave-security-breach/582426/
+Deezer,LOA.DU,01-11-2022,Data Breach,229.000.000,https://t3n.de/news/deezer-gehackt-datensaetze-bei-have-i-been-pwned-einsehbar-1524723/
+Digital Ocean,DOCN,09-04-2021,Data Breach,10.000,https://www.bitdefender.com/en-us/blog/hotforsecurity/digitalocean-admits-data-breach-exposed-customers-billing-details
+DocuSign,DOCU,16-05-2017,Data Breach,Unknown,https://www.bitdefender.com/en-us/blog/hotforsecurity/docusign-admits-hackers-accessed-its-customer-email-database-sent-out-malware
+DoorDash,DASH,25-08-2022,Data Breach,Unknown,https://about.doordash.com/en-us/news/how-were-responding-to-a-third-party-vendor-phishing-incident
+DoorDash,DASH,04-05-2019,Data Breach,4.900.000,https://techcrunch.com/2019/09/26/doordash-data-breach/
+Dropbox,DBX,14-10-2022,Code Breach,Unknown,https://www.bleepingcomputer.com/news/security/dropbox-discloses-breach-after-hacker-stole-130-github-repositories/
+Dropbox,DBX,24-04-2024,Data Breach,Unknown,https://www.bleepingcomputer.com/news/security/dropbox-says-hackers-stole-customer-data-auth-secrets-from-esignature-service/
+Duolingo,DUOL,24-01-2023,Data Breach,2.600.000,https://www.bleepingcomputer.com/news/security/scraped-data-of-26-million-duolingo-users-released-on-hacking-forum/
+Fortinet,FTNT,12-09-2024,Data Breach,2415,https://www.fortinet.com/blog/business-and-technology/notice-of-recent-security-incident
+GitLab,GTLB,01-12-2024,Credential Breach,5379,https://www.bleepingcomputer.com/news/security/over-5-300-gitlab-servers-exposed-to-zero-click-account-takeover-attacks/
+Meta,META,05-04-2021,Data Breach,553.000.000,https://www.bbc.com/news/technology-63784393
+MongoDB,MDB,,Ransomware Attack,23.000,https://www.zdnet.com/article/hacker-ransoms-23k-mongodb-databases-and-threatens-to-contact-gdpr-authorities/
+NVIDEA,NVDA,23-02-2022,"Credential Breach, Code Breach, Intellectual Property Breach",71.335,https://www.bleepingcomputer.com/news/security/nvidia-data-breach-exposed-credentials-of-over-71-000-employees/
+Okta,OKTA,20-10-2023,"Credential Breach, Operational Breach",18.400,https://techcrunch.com/2023/11/29/okta-admits-hackers-accessed-data-on-all-customers-during-recent-breach/
+OVH,OAAN.IL,25-05-2024,Distributed Denial of Service Attack,Unknown,https://thehackernews.com/2024/07/ovhcloud-hit-with-record-840-million.html
+Palo Alto Networks,PANW,,,,
+Reddit,RDDT,05-02-2023,"Data Breach, Social Engineering Breach",Unknown,https://techcrunch.com/2023/06/19/hackers-threaten-to-leak-80gb-of-confidential-data-stolen-from-reddit/
+Robinhood,HOOD,03-11-2021,"Data Breach, Social Engineering Breach",5.000.000,https://techcrunch.com/2021/11/09/robinhood-data-breach/
+Roblox,RBLX,18-08-2023,Data Breach,4.000,https://www.infosecurity-magazine.com/news/old-roblox-data-leak-resurfaces/
+Snap,SNAP,31-12-2013,Data Breach,4.600.000,https://www.bbc.com/news/technology-25572661
+SolarWinds,SWI,13-12-2020,Supply Chain Breach,30.000,https://www.techtarget.com/whatis/feature/SolarWinds-hack-explained-Everything-you-need-to-know
+Sony,SONY,,,,
+Tesco,TSCDF,,,,
+Twilio,TWLO,,,,
+VK,MLRYY,,,,
+Vodafone,VOD,,,,
