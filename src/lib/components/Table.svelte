@@ -1,67 +1,118 @@
-<script lang="ts" generics="T extends Record<string, string>">
-	import { FilterIcon } from "lucide-svelte";
+<script lang="ts" generics="T extends Record<string, any>">
+	import {
+		ArrowDownNarrowWideIcon,
+		ArrowDownWideNarrowIcon,
+		SearchIcon
+	} from "lucide-svelte";
+
+	// Types
+	import type { Snippet } from "svelte";
+
+	type SortDirection = "asc" | "desc";
 
 	let {
-		header,
-		items
+		columns,
+		data,
+		row
 	}: {
-		header: string[];
-		/* eslint-disable-next-line no-undef */
-		items: T[];
+		columns: string[];
+		// eslint-disable-next-line no-undef
+		data: T[];
+		// eslint-disable-next-line no-undef
+		row: Snippet<[item: T]>;
 	} = $props();
 
-	let filter = $state("");
+	let searchQuery = $state<string>("");
+	let sortColumn = $state<string>("");
+	let sortDirection = $state<SortDirection>("asc");
 
-	const setFilter = (event: Event) => {
-		filter = (event.target as HTMLInputElement).value;
+	// eslint-disable-next-line no-undef
+	const filter = (data: T[]) => {
+		return data
+			.filter((row) => {
+				if (searchQuery.length === 0) {
+					return row;
+				}
+
+				return Object.values(row).some((value) =>
+					String(value)
+						.toLowerCase()
+						.includes(searchQuery.toLowerCase())
+				);
+			})
+			.sort((a, b) => {
+				if (!sortColumn) {
+					return 0;
+				}
+
+				const comparison = String(a[sortColumn]).localeCompare(
+					String(b[sortColumn])
+				);
+
+				return sortDirection === "asc" ? comparison : -comparison;
+			});
 	};
 
-	/* eslint-disable-next-line no-undef */
-	const applyFilter = (items: T[]) => {
-		return items.filter((item) => {
-			const cells = Object.values(item)
-				.map((item) => item.toLowerCase())
-				.join(" ");
+	const sort = (column: string) => {
+		if (sortColumn === column) {
+			sortDirection = sortDirection === "asc" ? "desc" : "asc";
+			return;
+		}
 
-			return cells.includes(filter.toLowerCase());
-		});
+		sortColumn = column;
+		sortDirection = "asc";
 	};
 
-	let itemsView = $derived(!filter ? items : applyFilter(items));
+	let filteredData = $derived(filter(data));
 </script>
 
 <div>
-	<!-- Input -->
-	<div class="flex items-center gap-2 bg-slate-50">
-		<FilterIcon class="text-slate-600" />
-		<input
-			type="text"
-			placeholder="Filter..."
-			value={filter}
-			oninput={setFilter}
-			class="min-w-64 bg-transparent px-4 py-2 outline-none placeholder:text-slate-400"
-		/>
-		<span class="text-xs text-slate-600"
-			>Zeige {itemsView.length} von {items.length} Ergebnissen an.</span
+	<!-- Search -->
+	<div class="flex items-center justify-between pb-4 pr-4">
+		<div class="flex items-center bg-slate-100 pl-4">
+			<SearchIcon class="text-slate-600" />
+			<input
+				type=" text"
+				placeholder="Search..."
+				bind:value={searchQuery}
+				class="min-w-96 bg-transparent py-2.5 pl-2.5 text-slate-600 placeholder:text-slate-500"
+			/>
+		</div>
+		<span class="text-sm text-slate-500"
+			>Showing {filteredData.length} item{filteredData.length === 1
+				? ""
+				: "s"}</span
 		>
 	</div>
 
 	<!-- Header -->
-	<div class="flex justify-between py-2 font-bold">
-		{#each header as cell}
-			<span class="block w-full">{cell}</span>
+	<div
+		class="flex items-center justify-between gap-4 rounded bg-slate-200 p-4"
+	>
+		{#each columns as column}
+			<button
+				onclick={() => sort(column)}
+				class="flex w-full items-center gap-2 font-bold text-slate-600"
+			>
+				<span>{column}</span>
+				{#if sortColumn === column}
+					{#if sortDirection === "asc"}
+						<ArrowDownWideNarrowIcon />
+					{:else}
+						<ArrowDownNarrowWideIcon />
+					{/if}
+				{/if}
+			</button>
 		{/each}
 	</div>
 
 	<!-- Body -->
-	<div>
-		{#each itemsView as item}
+	<div class="flex flex-col justify-between">
+		{#each filteredData as data}
 			<div
-				class="flex justify-between py-2 odd:bg-slate-50 even:bg-slate-100"
+				class="flex w-full items-center gap-2 p-4 text-slate-600 even:bg-slate-100"
 			>
-				{#each Object.values(item) as cell}
-					<span class="block w-full">{cell}</span>
-				{/each}
+				{@render row(data)}
 			</div>
 		{/each}
 	</div>
