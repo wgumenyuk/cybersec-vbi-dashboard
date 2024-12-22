@@ -26,6 +26,24 @@
 	let sortColumn = $state<string>("");
 	let sortDirection = $state<SortDirection>("asc");
 
+	const parseDate = (date: string) => {
+		if (typeof date !== "string") {
+			return null;
+		}
+
+		const [month, year] = date.split("-").map((value) => {
+			return value.startsWith("0")
+				? parseInt(value.slice(1))
+				: parseInt(value);
+		});
+
+		if (!isNaN(month) && !isNaN(year)) {
+			return new Date(Number(year), Number(month) - 1);
+		}
+
+		return null;
+	};
+
 	// eslint-disable-next-line no-undef
 	const filter = (data: T[]) => {
 		return data
@@ -45,8 +63,41 @@
 					return 0;
 				}
 
-				const comparison = String(a[sortColumn]).localeCompare(
-					String(b[sortColumn])
+				const x = a[sortColumn];
+				const y = b[sortColumn];
+
+				if (x === "Unknown" && y !== "Unknown") return 1;
+				if (y === "Unknown" && x !== "Unknown") return -1;
+				if (x === "Unknown" && y === "Unknown") return 0;
+
+				const dx = parseDate(x);
+				const dy = parseDate(y);
+
+				// X und Y sind Daten.
+				if (dx && dy) {
+					return sortDirection === "asc"
+						? dx.getFullYear() - dy.getFullYear()
+						: dy.getFullYear() - dx.getFullYear();
+				}
+
+				if (dx && !dy) return -1;
+				if (dy && !dy) return 1;
+
+				// X und Y sind Nummern.
+				if (!isNaN(x) && !isNaN(y)) {
+					return sortDirection === "asc" ? x - y : y - x;
+				}
+
+				if (!isNaN(x) && isNaN(y)) return -1;
+				if (!isNaN(y) && isNaN(x)) return 1;
+
+				// X und Y sind Strings.
+				const comparison = String(x).localeCompare(
+					String(y),
+					undefined,
+					{
+						sensitivity: "base"
+					}
 				);
 
 				return sortDirection === "asc" ? comparison : -comparison;
