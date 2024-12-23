@@ -119,8 +119,10 @@
 
 <div>
 	<!-- Search -->
-	<div class="flex items-center justify-between pb-4 pr-4">
-		<div class="flex items-center bg-slate-100 pl-4">
+	<div
+		class="sticky top-0 flex items-center justify-between rounded-md bg-slate-100 p-4 shadow-sm"
+	>
+		<div class="flex items-center rounded bg-slate-50 pl-4">
 			<SearchIcon class="text-slate-600" />
 			<input
 				type=" text"
@@ -138,7 +140,7 @@
 
 	<!-- Header -->
 	<div
-		class="flex items-center justify-between gap-4 rounded bg-slate-200 p-4"
+		class="sticky top-20 flex items-center justify-between gap-4 rounded-md bg-slate-200 p-4 shadow-sm"
 	>
 		{#each columns as column}
 			<button
@@ -158,13 +160,19 @@
 	</div>
 
 	<!-- Body -->
-	<div class="flex flex-col justify-between">
-		{#each filteredData as data}
-			<div
-				class="flex w-full items-center gap-2 p-4 text-slate-600 even:bg-slate-100"
+	<div class="flex flex-col justify-between overflow-y-auto">
+		{#if filteredData.length > 0}
+			{#each filteredData as data}
+				<div
+					class="flex w-full items-center gap-2 p-4 text-slate-600 even:bg-slate-100"
+				>
+					{@render row(data)}
+				</div>
+			{/each}
+		{:else}
+			<span class="mx-auto pt-8 text-slate-400"
+				>No items matched "{searchQuery}"</span
 			>
-				{@render row(data)}
-			</div>
-		{/each}
+		{/if}
 	</div>
 </div>

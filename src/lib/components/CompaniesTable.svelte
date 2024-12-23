@@ -19,8 +19,8 @@
 	<span class="w-full">{item.Date}</span>
 	<span class="w-full">{item.Type.join(", ")}</span>
 	<span class="w-full">
-		{!isNaN(parseInt(item.Affected))
-			? format(parseInt(item.Affected))
+		{!isNaN(item.Affected as number)
+			? format(item.Affected as number)
 			: item.Affected}
 	</span>
 {/snippet}
