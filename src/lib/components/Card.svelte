@@ -5,22 +5,27 @@
 	import type { Snippet } from "svelte";
 
 	let {
-		class: optionalClasses,
-		children
+		children,
+		class: oc
 	}: {
+		children?: Snippet;
 		class?: string;
-		children: Snippet;
 	} = $props();
 
-	const cardClass = clsx(
-		optionalClasses,
+	const c = clsx(
+		oc,
+		"bg-silver-100",
+		"dark:bg-silver-900",
+		"p-4",
 		"rounded-lg",
-		"bg-slate-50",
-		"p-8",
-		"shadow-sm"
+		"border",
+		"border-silver-200",
+		"dark:border-silver-800",
+		"shadow-sm",
+		"dark:shadow-none"
 	);
 </script>
 
-<div class={cardClass}>
-	{@render children()}
+<div class={c}>
+	{@render children?.()}
 </div>
