@@ -9,14 +9,16 @@
 		children
 	}: {
 		href: string;
-		children: Snippet;
+		children?: Snippet;
 	} = $props();
 </script>
 
 <a
 	{href}
-	class="flex w-fit border-spacing-2 items-center gap-1.5 border-b border-dotted border-slate-500"
+	class="flex w-fit items-center gap-1.5 border-b border-dotted border-silver-800 hover:border-silver-500 dark:border-silver-400 hover:dark:border-silver-100"
 >
-	{@render children()}
-	<ExternalLinkIcon size="16px" />
+	<span>
+		{@render children?.()}
+	</span>
+	<ExternalLinkIcon size="18px" />
 </a>
