@@ -80,13 +80,15 @@
 	let sortColumn = $state<string>("");
 	let sortDirection = $state<SortDirection>("asc");
 
-	let sortedRows = $derived(
-		!sortColumn
-			? rows
-			: rows.toSorted((a, b) =>
-					compare(a[sortColumn], b[sortColumn], sortDirection)
-				)
-	);
+	let sortedRows = $derived.by(() => {
+		if (!sortColumn) {
+			return rows;
+		}
+
+		return rows.toSorted((a, b) =>
+			compare(a[sortColumn], b[sortColumn], sortDirection)
+		);
+	});
 </script>
 
 <div>
@@ -127,7 +129,7 @@
 				</div>
 			{/each}
 		{:else}
-			<span class="mx-auto pt-4 dark:text-silver-500"
+			<span class="mx-auto pt-8 dark:text-silver-500"
 				>No items found matching your query.</span
 			>
 		{/if}
