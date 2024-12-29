@@ -4,5 +4,5 @@
 
 html,
 body {
-	@apply min-h-screen overflow-hidden bg-slate-100 text-slate-950;
+	@apply min-h-screen bg-silver-50 text-silver-800 dark:bg-silver-950 dark:text-silver-100;
 }
