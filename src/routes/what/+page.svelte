@@ -6,12 +6,13 @@
 	import Card from "$components/Card.svelte";
 	import Table from "$components/Table.svelte";
 	import Link from "$components/Link.svelte";
+	import BreachKPI from "$components/viz/BreachKPI.svelte";
 
 	// Diagrams
 	import BreachTypes from "$components/viz/BreachTypes.svelte";
 
 	// Dataset
-	import data from "$lib/data/breaches_symbols.json";
+	import dataset from "$lib/data/breaches_symbols.json";
 
 	const placeholders = [
 		"Apple",
@@ -28,23 +29,25 @@
 
 	let searchQuery = $state<string>("");
 
-	let filteredData = $derived(
-		!searchQuery
-			? data
-			: data.filter((item) => {
-					return Object.values(item)
-						.flat()
-						.some((value) =>
-							value
-								.toString()
-								.toLowerCase()
-								.includes(searchQuery.toLowerCase())
-						);
-				})
-	);
+	let filteredData = $derived.by(() => {
+		if (!searchQuery) {
+			return dataset;
+		}
+
+		return dataset.filter((item) => {
+			return Object.values(item)
+				.flat()
+				.some((value) =>
+					value
+						.toString()
+						.toLowerCase()
+						.includes(searchQuery.toLowerCase())
+				);
+		});
+	});
 </script>
 
-{#snippet row(item: (typeof data)[0])}
+{#snippet row(item: (typeof dataset)[0])}
 	<span class="block w-full">
 		<Link href="/what/{item.Symbol}">{item.Company}</Link>
 	</span>
@@ -81,11 +84,7 @@
 <div class="flex gap-8">
 	<div class="flex w-full flex-col gap-8">
 		<div class="flex h-32 justify-between gap-8">
-			<Card class="grow">...</Card>
-			<Card class="grow">...</Card>
-			<Card class="grow">...</Card>
-			<Card class="grow">...</Card>
-			<Card class="grow">...</Card>
+			<BreachKPI />
 		</div>
 		<Card class="flex h-16 items-center justify-between">
 			<div
