@@ -23,7 +23,34 @@
 	/**
 		Summe aller Betroffenen.
 	*/
-	const totalAffected = affected.reduce((acc, cur) => acc + cur);
+
+	// Helper function to calculate percentage change
+	const calculatePercentageChange = (before: number, after: number): number => {
+		return ((after - before) / before) * 100;
+	};
+
+	// Find the biggest drop in percentage and the associated company
+	const biggestDrop = (() => {
+		let maxDrop = 0;
+		let company = "";
+
+		data.forEach((d) => {
+			const stockPriceBefore = parseFloat(d["Pre-Attack Stock Price"]);
+			const stockPriceAfter = parseFloat(d["Post-Attack Stock Price"]);
+
+			if (!isNaN(stockPriceBefore) && !isNaN(stockPriceAfter) && stockPriceBefore !== 0) {
+				const percentageChange = calculatePercentageChange(stockPriceBefore, stockPriceAfter);
+
+				// Check if this is the largest drop
+				if (percentageChange < maxDrop) {
+					maxDrop = percentageChange;
+					company = d.Company;
+				}
+			}
+		});
+
+		return `${company}: ${maxDrop}%`;
+	})();
 
 	/**
 		Median der Betroffenen.
@@ -33,11 +60,6 @@
 	/**
 		Durchschnittliche Preisänderung (1 Monat vor Angriff - 1 Monat nach Angriff).
 	*/
-
-	// Helper function to calculate percentage change
-	const calculatePercentageChange = (before: number, after: number): number => {
-		return ((after - before) / before) * 100;
-	};
 
 	// Calculate the average percentage change in stock price due to breaches
 
@@ -88,8 +110,8 @@
 </Card>
 
 <Card class="flex w-full grow flex-col justify-center gap-4">
-	<span class="dark:text-silver-400"># Total Affected</span>
-	<span class="text-2xl">{format(totalAffected)}</span>
+	<span class="dark:text-silver-400">Biggest Drop</span>
+	<span class="text-2xl">{biggestDrop}</span>
 </Card>
 
 <Card class="flex w-full grow flex-col justify-center gap-4">
