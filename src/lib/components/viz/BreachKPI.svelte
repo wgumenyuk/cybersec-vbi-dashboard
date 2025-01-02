@@ -31,80 +31,78 @@
 	const medianAffected = median(affected);
 
 	/**
-		Durchschnittliches Intervall zwischen Breaches.
+		Durchschnittliche Preisänderung (1 Monat vor Angriff - 1 Monat nach Angriff).
 	*/
-	const averageBreachInterval = (() => {
-		const dates = data
-			.map((d) => {
-				const date = d.Date.startsWith("0") ? d.Date.slice(1) : d.Date;
 
-				const [month, year] = date.split("-").map((v) => parseInt(v));
+	// Helper function to calculate percentage change
+	const calculatePercentageChange = (before: number, after: number): number => {
+		return ((after - before) / before) * 100;
+	};
 
-				if (month && year) {
-					return new Date(year, month - 1);
-				}
+	// Calculate the average percentage change in stock price due to breaches.
 
-				return null;
-			})
-			.filter((date) => date !== null)
-			.sort((a, b) => a.getTime() - b.getTime());
+	const averageStockPriceChange = (() => {
+		const percentageChanges = data
+	        .map((d) => {
+	    	// Parse stock prices
+                const stockPriceBefore = parseFloat(d["Pre-Attack Stock Price"]);
+                const stockPriceAfter = parseFloat(d["Post-Attack Stock Price"]);
 
-		const differences: number[] = [];
+                // Check if both values are valid numbers
+                if (!isNaN(stockPriceBefore) && !isNaN(stockPriceAfter) && stockPriceBefore !== 0) {
+                    return calculatePercentageChange(stockPriceBefore, stockPriceAfter);
+                }
+                return null; // Skip invalid entries
+	    })
+    	.filter((change) => change !== null) as number[];
 
-		for (let i = 1; i < dates.length; i++) {
-			const a = dates[i];
-			const b = dates[i - 1];
-
-			differences.push(
-				(a.getFullYear() - b.getFullYear()) * 12 +
-					a.getMonth() -
-					b.getMonth()
-			);
-		}
-
-		return mean(differences);
+		return percentageChanges.length
+			? percentageChanges.reduce((acc, cur) => acc + cur, 0) / percentageChanges.length
+			: 0;
 	})();
 
 	/**
-		Branche mit den meisten Breaches.
+		Meist-auftretender Breach Type.
 	*/
-	const mostCommonIndustry = (() => {
+	const mostCommonBreachType = (() => {
 		const count = data.reduce((count: Record<string, number>, d) => {
-			count[d.Industry] = (count[d.Industry] || 0) + 1;
+			d.Type.forEach((type: string) => {
+				count[type] = (count[type] || 0) + 1;
+			});
 			return count;
 		}, {});
 
-		const industry = Object.entries(count).sort((a, b) => {
+		const type = Object.entries(count).sort((a, b) => {
 			const countA = a[1];
 			const countB = b[1];
 			return countB - countA;
 		})[0];
 
-		return industry[0];
+		return type[0];
 	})();
 </script>
 
 <Card class="flex w-full grow flex-col justify-center gap-4">
 	<span class="dark:text-silver-400"># Breaches</span>
-	<span class="text-4xl">{numberOfBreaches}</span>
+	<span class="text-2xl">{numberOfBreaches}</span>
 </Card>
 
 <Card class="flex w-full grow flex-col justify-center gap-4">
 	<span class="dark:text-silver-400"># Total Affected</span>
-	<span class="text-4xl">{format(totalAffected)}</span>
+	<span class="text-2xl">{format(totalAffected)}</span>
 </Card>
 
 <Card class="flex w-full grow flex-col justify-center gap-4">
 	<span class="dark:text-silver-400"># Affected per Breach</span>
-	<span class="text-4xl">{format(medianAffected)}</span>
+	<span class="text-2xl">{format(medianAffected)}</span>
 </Card>
 
 <Card class="flex w-full grow flex-col justify-center gap-4">
-	<span class="dark:text-silver-400">Avg. # Months Between Breaches</span>
-	<span class="text-4xl">{format(averageBreachInterval)}</span>
+	<span class="dark:text-silver-400">Avg. Stock Price Change</span>
+	<span class="text-2xl">{format(averageStockPriceChange)}%</span>
 </Card>
 
 <Card class="flex w-full grow flex-col justify-center gap-4">
-	<span class="dark:text-silver-400">Industry With Most # Breaches</span>
-	<span class="text-4xl">{mostCommonIndustry}</span>
+	<span class="dark:text-silver-400">Most Common Breach Type</span>
+	<span class="text-2xl">{mostCommonBreachType}</span>
 </Card>
