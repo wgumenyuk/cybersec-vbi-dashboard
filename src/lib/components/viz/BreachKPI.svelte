@@ -39,7 +39,7 @@
 		return ((after - before) / before) * 100;
 	};
 
-	// Calculate the average percentage change in stock price due to breaches.
+	// Calculate the average percentage change in stock price due to breaches
 
 	const averageStockPriceChange = (() => {
 		const percentageChanges = data
