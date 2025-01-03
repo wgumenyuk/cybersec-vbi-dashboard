@@ -9,9 +9,7 @@
 	import BreachKPI from "$components/viz/BreachKPI.svelte";
 	import Heatmap from "$components/viz/Heatmap.svelte"
 	import StockByType from "$components/viz/StockPriceImpactByType.svelte";
-
-	// Diagrams
-	import BreachTypes from "$components/viz/BreachTypes.svelte";
+	import BubbleChart from "$components/viz/BubbleChart.svelte";
 
 	// Dataset
 	import dataset from "$lib/data/breaches_symbols.json";
@@ -142,7 +140,10 @@
 			<span>Stock Price Impact by Breach Type</span>
 			<StockByType />
 		</Card>
-		<Card class="grow">…</Card>
+		<Card class="flex flex-col grow align-center justify-around">
+			<span>Number of People Affected by Breach Type</span>
+			<BubbleChart />
+		</Card>
 		<Card class="grow">…</Card>
 		<Card class="grow">…</Card>
 	</div>
