@@ -7,6 +7,7 @@
 	import Table from "$components/Table.svelte";
 	import Link from "$components/Link.svelte";
 	import BreachKPI from "$components/viz/BreachKPI.svelte";
+	import Heatmap from "$components/viz/Heatmap.svelte"
 
 	// Diagrams
 	import BreachTypes from "$components/viz/BreachTypes.svelte";
@@ -82,7 +83,7 @@
 </Nav>
 
 <div class="flex gap-8">
-	<div class="flex w-full flex-col gap-8">
+	<div class="flex w- flex-col gap-8">
 		<div class="flex h-32 justify-between gap-8">
 			<BreachKPI />
 		</div>
@@ -128,14 +129,21 @@
 				{row}
 			/>
 		</Card>
+		<Card class="text-center">
+			<span>Breach Distribution amongst Types and Industries</span>
+			<div class="w-full h-full">
+				<Heatmap />
+			</div>
+		</Card>
 	</div>
-	<div class="flex flex-col gap-8">
+	<div class="flex flex-col w-full gap-8">
 		<Card
 			class="flex max-h-96 grow flex-col items-center justify-around gap-4"
 		>
 			<span>Distribution of Breach Types</span>
 			<BreachTypes data={filteredData} />
 		</Card>
+		<Card class="grow">…</Card>
 		<Card class="grow">…</Card>
 		<Card class="grow">…</Card>
 	</div>
