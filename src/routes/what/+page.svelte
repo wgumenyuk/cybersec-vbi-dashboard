@@ -8,6 +8,7 @@
 	import Link from "$components/Link.svelte";
 	import BreachKPI from "$components/viz/BreachKPI.svelte";
 	import Heatmap from "$components/viz/Heatmap.svelte"
+	import StockByType from "$components/viz/StockPriceImpactByType.svelte";
 
 	// Diagrams
 	import BreachTypes from "$components/viz/BreachTypes.svelte";
@@ -137,7 +138,10 @@
 		</Card>
 	</div>
 	<div class="flex flex-col w-[35%] gap-8">
-		<Card class="grow">…</Card>
+		<Card class="flex flex-col grow align-center justify-around">
+			<span>Stock Price Impact by Breach Type</span>
+			<StockByType />
+		</Card>
 		<Card class="grow">…</Card>
 		<Card class="grow">…</Card>
 		<Card class="grow">…</Card>
