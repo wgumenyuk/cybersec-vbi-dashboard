@@ -129,33 +129,35 @@
 	})();
 </script>
 
-<Card class="flex w-full grow flex-col justify-center gap-4">
-	<span class="dark:text-silver-400"># Breaches</span>
+<Card class="flex w-full grow flex-col justify-around gap-4">
+	<span class="h-full dark:text-silver-400"># of Breaches</span>
 	<span class="text-2xl">{numberOfBreaches}</span>
 </Card>
 
-<Card class="flex w-full grow flex-col justify-center gap-4">
+<Card class="flex w-full grow flex-col justify-around gap-4">
 	{@const { company, maxDrop } = biggestDrop}
-	<span class="dark:text-silver-400">Biggest Drop</span>
-	<span class="text-2xl">
-		{company}
-		<span class="text-rose-600 dark:text-rose-400">{maxDrop}%</span>
-	</span>
+	<span class="h-full dark:text-silver-400">Largest Stock Decline</span>
+	<div class="flex items-center gap-4">
+		<span class="text-2xl text-rose-600 dark:text-rose-400">
+			{maxDrop}%
+		</span>
+		<span class="text-xs">{company}</span>
+	</div>
 </Card>
 
-<Card class="flex w-full grow flex-col justify-center gap-4">
-	<span class="dark:text-silver-400"># Affected per Breach</span>
+<Card class="flex w-full grow flex-col justify-around gap-4">
+	<span class="h-full dark:text-silver-400"># of Affected per Breach</span>
 	<span class="text-2xl">{format(medianAffected)}</span>
 </Card>
 
-<Card class="flex w-full grow flex-col justify-center gap-4">
-	<span class="dark:text-silver-400">Avg. Stock Price Change</span>
+<Card class="flex w-full grow flex-col justify-around gap-4">
+	<span class="h-full dark:text-silver-400">Avg. Stock Price Change</span>
 	<span class="text-2xl text-emerald-600 dark:text-emerald-400"
-		>{format(averageStockPriceChange)}%</span
+		>+{format(averageStockPriceChange)}%</span
 	>
 </Card>
 
-<Card class="flex w-full grow flex-col justify-center gap-4">
-	<span class="dark:text-silver-400">Most Common Breach Type</span>
+<Card class="flex w-full grow flex-col justify-around gap-4">
+	<span class="h-full dark:text-silver-400">Most Common Breach Type</span>
 	<span class="text-2xl">{mostCommonBreachType}</span>
 </Card>

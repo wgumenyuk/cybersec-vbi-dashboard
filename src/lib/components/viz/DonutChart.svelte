@@ -60,10 +60,21 @@
 		.innerRadius(radius / 2) // Donut hole size
 		.outerRadius(radius);
 
-	let tooltip = { visible: false, x: 0, y: 0, text: "", color: "" };
+	let tooltip = $state({
+		visible: false,
+		x: 0,
+		y: 0,
+		text: "",
+		color: ""
+	});
+
+	const { format: formatNumber } = new Intl.NumberFormat("en-US", {
+		notation: "compact"
+	});
 
 	function showTooltip(
 		event: MouseEvent,
+		type: string,
 		average: number,
 		sliceColor: string
 	) {
@@ -71,7 +82,7 @@
 			visible: true,
 			x: event.pageX,
 			y: event.pageY - 40,
-			text: `${average.toLocaleString()} affected`,
+			text: `${type} (${formatNumber(average)} Affected)`,
 			color: sliceColor
 		};
 	}
@@ -90,13 +101,14 @@
 					d={arc(pieData) || ""}
 					fill={color(pieData.data.type)}
 					class="cursor-pointer opacity-80 transition-opacity hover:opacity-100"
-					on:mouseenter={(e) =>
+					onmouseenter={(e) =>
 						showTooltip(
 							e,
+							pieData.data.type,
 							pieData.data.average,
 							color(pieData.data.type)
 						)}
-					on:mouseleave={hideTooltip}
+					onmouseleave={hideTooltip}
 					role="graphics-symbol"
 					aria-label={`Slice for ${pieData.data.average.toLocaleString()} people`}
 				/>
@@ -113,7 +125,7 @@
 					style="background-color: {color(type)}"
 				></div>
 				<span class="ml-2 text-sm text-white"
-					>{type} ({average.toLocaleString()})</span
+					>{type} ({formatNumber(average)})</span
 				>
 			</div>
 		{/each}

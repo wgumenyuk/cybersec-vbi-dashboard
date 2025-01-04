@@ -106,14 +106,19 @@
 			.range([0, width])
 			.padding(0.05);
 		const y = d3.scaleBand().domain(types).range([0, height]).padding(0.05);
+
 		const color = d3
-			.scaleSequential(d3.interpolateRdYlGn)
+			//.scaleSequential(d3.interpolateRdYlGn)
+			.scaleLinear()
 			.domain([
 				d3.min(heatmapData, (d) => d.impact) || -100,
 				d3.max(heatmapData, (d) => d.impact) || 100
-			]);
+			])
+			// @ts-expect-error Keine Ahnung, warum hier ein Fehler auftaucht -- funktioniert hervorragend.
+			.range(["#f43f5e", "#10b981"]);
 
-		const fallbackColor = "#444444";
+		//const fallbackColor = "#444444";
+		const fallbackColor = "#302F31";
 
 		svgEl
 			.append("g")
@@ -145,7 +150,7 @@
 					showTooltip(
 						event,
 						`${d.impact.toFixed(2)}% change`,
-						color(d.impact)
+						color(d.impact).toString()
 					);
 				}
 			})
