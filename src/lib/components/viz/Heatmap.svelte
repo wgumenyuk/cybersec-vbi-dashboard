@@ -4,7 +4,10 @@
 
 	import data from "$lib/data/breaches_symbols.json";
 
-	const calculatePercentageChange = (before: number, after: number): number => {
+	const calculatePercentageChange = (
+		before: number,
+		after: number
+	): number => {
 		return ((after - before) / before) * 100;
 	};
 
@@ -18,8 +21,15 @@
 			const industry = d.Industry;
 			const types = d.Type;
 
-			if (!isNaN(stockPriceBefore) && !isNaN(stockPriceAfter) && stockPriceBefore !== 0) {
-				const percentageChange = calculatePercentageChange(stockPriceBefore, stockPriceAfter);
+			if (
+				!isNaN(stockPriceBefore) &&
+				!isNaN(stockPriceAfter) &&
+				stockPriceBefore !== 0
+			) {
+				const percentageChange = calculatePercentageChange(
+					stockPriceBefore,
+					stockPriceAfter
+				);
 
 				types.forEach((type: string) => {
 					if (!impacts[type]) impacts[type] = {};
@@ -38,8 +48,10 @@
 				type,
 				industry,
 				impact:
-					impacts[type]?.[industry]?.reduce((acc, cur) => acc + cur, 0) /
-						(impacts[type]?.[industry]?.length || 1) || null, // Assign null for missing data
+					impacts[type]?.[industry]?.reduce(
+						(acc, cur) => acc + cur,
+						0
+					) / (impacts[type]?.[industry]?.length || 1) || null // Assign null for missing data
 			}))
 		);
 
@@ -55,20 +67,21 @@
 	let tooltip = { visible: false, x: 0, y: 0, text: "", color: "" };
 
 	function showTooltip(event: MouseEvent, text: string, sliceColor: string) {
-		const container = document.querySelector('.heatmap-container')!;
+		const container = document.querySelector(".heatmap-container")!;
 		const containerRect = container.getBoundingClientRect();
-		const tooltipX = event.clientX - containerRect.left + container.scrollLeft;
-		const tooltipY = event.clientY - containerRect.top + container.scrollTop;
+		const tooltipX =
+			event.clientX - containerRect.left + container.scrollLeft;
+		const tooltipY =
+			event.clientY - containerRect.top + container.scrollTop;
 
 		tooltip = {
 			visible: true,
 			x: tooltipX,
 			y: tooltipY,
 			text,
-			color: sliceColor,
+			color: sliceColor
 		};
 	}
-
 
 	function hideTooltip() {
 		tooltip.visible = false;
@@ -83,13 +96,22 @@
 			.attr("transform", `translate(${margin.left},${margin.top})`);
 
 		const types = Array.from(new Set(heatmapData.map((d) => d.type)));
-		const industries = Array.from(new Set(heatmapData.map((d) => d.industry)));
+		const industries = Array.from(
+			new Set(heatmapData.map((d) => d.industry))
+		);
 
-		const x = d3.scaleBand().domain(industries).range([0, width]).padding(0.05);
+		const x = d3
+			.scaleBand()
+			.domain(industries)
+			.range([0, width])
+			.padding(0.05);
 		const y = d3.scaleBand().domain(types).range([0, height]).padding(0.05);
 		const color = d3
 			.scaleSequential(d3.interpolateRdYlGn)
-			.domain([d3.min(heatmapData, (d) => d.impact) || -100, d3.max(heatmapData, (d) => d.impact) || 100]);
+			.domain([
+				d3.min(heatmapData, (d) => d.impact) || -100,
+				d3.max(heatmapData, (d) => d.impact) || 100
+			]);
 
 		const fallbackColor = "#444444";
 
@@ -114,11 +136,17 @@
 			.attr("y", (d) => y(d.type) ?? 0)
 			.attr("width", x.bandwidth())
 			.attr("height", y.bandwidth())
-			.style("fill", (d) => (d.impact != null ? color(d.impact) : fallbackColor))
+			.style("fill", (d) =>
+				d.impact != null ? color(d.impact) : fallbackColor
+			)
 			.style("stroke", "white")
 			.on("mouseenter", (event, d) => {
 				if (d.impact != null) {
-					showTooltip(event, `${d.impact.toFixed(2)}% change`, color(d.impact));
+					showTooltip(
+						event,
+						`${d.impact.toFixed(2)}% change`,
+						color(d.impact)
+					);
 				}
 			})
 			.on("mouseleave", hideTooltip);
@@ -131,12 +159,12 @@
 	<!-- Tooltip -->
 	{#if tooltip.visible}
 		<div
-			class="absolute bg-gray-800 text-white p-2 rounded shadow"
+			class="absolute rounded bg-gray-800 p-2 text-white shadow"
 			style="top: {tooltip.y}px; left: {tooltip.x}px; transform: translate(-50%, -100%);"
 		>
 			<div class="flex items-center gap-2">
 				<div
-					class="w-4 h-4 rounded"
+					class="h-4 w-4 rounded"
 					style="background-color: {tooltip.color}"
 				></div>
 				<span>{tooltip.text}</span>

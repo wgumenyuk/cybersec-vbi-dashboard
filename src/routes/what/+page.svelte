@@ -7,7 +7,7 @@
 	import Table from "$components/Table.svelte";
 	import Link from "$components/Link.svelte";
 	import BreachKPI from "$components/viz/BreachKPI.svelte";
-	import Heatmap from "$components/viz/Heatmap.svelte"
+	import Heatmap from "$components/viz/Heatmap.svelte";
 	import StockByType from "$components/viz/StockPriceImpactByType.svelte";
 	import DonutChart from "$components/viz/DonutChart.svelte";
 
@@ -130,17 +130,17 @@
 		</Card>
 		<Card class="text-center">
 			<span>Breach Distribution amongst Types and Industries</span>
-			<div class="w-full h-full">
-				<Heatmap/>
+			<div class="h-full w-full">
+				<Heatmap />
 			</div>
 		</Card>
 	</div>
-	<div class="flex flex-col w-[35%] gap-8">
-		<Card class="flex flex-col grow align-center justify-around">
+	<div class="flex w-[35%] flex-col gap-8">
+		<Card class="align-center flex grow flex-col justify-around">
 			<span>Stock Price Impact by Breach Type</span>
 			<StockByType />
 		</Card>
-		<Card class="flex flex-col grow align-center justify-around">
+		<Card class="align-center flex grow flex-col justify-around">
 			<span>Number of People Affected by Breach Type</span>
 			<DonutChart />
 		</Card>
