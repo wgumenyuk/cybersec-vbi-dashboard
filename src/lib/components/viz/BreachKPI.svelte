@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { mean, median } from "mathjs";
+	import { median } from "mathjs";
 
 	// Components
 	import Card from "$components/Card.svelte";
@@ -25,7 +25,10 @@
 	*/
 
 	// Helper function to calculate percentage change
-	const calculatePercentageChange = (before: number, after: number): number => {
+	const calculatePercentageChange = (
+		before: number,
+		after: number
+	): number => {
 		return ((after - before) / before) * 100;
 	};
 
@@ -38,8 +41,15 @@
 			const stockPriceBefore = parseFloat(d["Pre-Attack Stock Price"]);
 			const stockPriceAfter = parseFloat(d["Post-Attack Stock Price"]);
 
-			if (!isNaN(stockPriceBefore) && !isNaN(stockPriceAfter) && stockPriceBefore !== 0) {
-				const percentageChange = calculatePercentageChange(stockPriceBefore, stockPriceAfter);
+			if (
+				!isNaN(stockPriceBefore) &&
+				!isNaN(stockPriceAfter) &&
+				stockPriceBefore !== 0
+			) {
+				const percentageChange = calculatePercentageChange(
+					stockPriceBefore,
+					stockPriceAfter
+				);
 
 				// Check if this is the largest drop
 				if (percentageChange < maxDrop) {
@@ -49,7 +59,10 @@
 			}
 		});
 
-		return `${company}: ${maxDrop}%`;
+		return {
+			company,
+			maxDrop
+		};
 	})();
 
 	/**
@@ -65,21 +78,33 @@
 
 	const averageStockPriceChange = (() => {
 		const percentageChanges = data
-	        .map((d) => {
-	    	// Parse stock prices
-                const stockPriceBefore = parseFloat(d["Pre-Attack Stock Price"]);
-                const stockPriceAfter = parseFloat(d["Post-Attack Stock Price"]);
+			.map((d) => {
+				// Parse stock prices
+				const stockPriceBefore = parseFloat(
+					d["Pre-Attack Stock Price"]
+				);
+				const stockPriceAfter = parseFloat(
+					d["Post-Attack Stock Price"]
+				);
 
-                // Check if both values are valid numbers
-                if (!isNaN(stockPriceBefore) && !isNaN(stockPriceAfter) && stockPriceBefore !== 0) {
-                    return calculatePercentageChange(stockPriceBefore, stockPriceAfter);
-                }
-                return null; // Skip invalid entries
-	    })
-    	.filter((change) => change !== null) as number[];
+				// Check if both values are valid numbers
+				if (
+					!isNaN(stockPriceBefore) &&
+					!isNaN(stockPriceAfter) &&
+					stockPriceBefore !== 0
+				) {
+					return calculatePercentageChange(
+						stockPriceBefore,
+						stockPriceAfter
+					);
+				}
+				return null; // Skip invalid entries
+			})
+			.filter((change) => change !== null) as number[];
 
 		return percentageChanges.length
-			? percentageChanges.reduce((acc, cur) => acc + cur, 0) / percentageChanges.length
+			? percentageChanges.reduce((acc, cur) => acc + cur, 0) /
+					percentageChanges.length
 			: 0;
 	})();
 
@@ -110,8 +135,12 @@
 </Card>
 
 <Card class="flex w-full grow flex-col justify-center gap-4">
+	{@const { company, maxDrop } = biggestDrop}
 	<span class="dark:text-silver-400">Biggest Drop</span>
-	<span class="text-2xl">{biggestDrop}</span>
+	<span class="text-2xl">
+		{company}
+		<span class="text-rose-600 dark:text-rose-400">{maxDrop}%</span>
+	</span>
 </Card>
 
 <Card class="flex w-full grow flex-col justify-center gap-4">
@@ -121,7 +150,9 @@
 
 <Card class="flex w-full grow flex-col justify-center gap-4">
 	<span class="dark:text-silver-400">Avg. Stock Price Change</span>
-	<span class="text-2xl">{format(averageStockPriceChange)}%</span>
+	<span class="text-2xl text-emerald-600 dark:text-emerald-400"
+		>{format(averageStockPriceChange)}%</span
+	>
 </Card>
 
 <Card class="flex w-full grow flex-col justify-center gap-4">
