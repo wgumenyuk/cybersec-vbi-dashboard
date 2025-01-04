@@ -35,7 +35,18 @@
     const width = 600;
     const height = 400;
     const radius = Math.min(width, height) / 2 - 40; // Radius of the chart
-    const color = d3.scaleOrdinal(d3.schemeTableau10);
+    const color = d3.scaleOrdinal([
+        "#6c3baa", // Purple
+        "#2563eb", // Blue
+        "#22c55e", // Green
+        "#ef4444", // Red
+        "#f59e0b", // Amber
+        "#ffde21", // Yellow
+        "#6366f1", // Indigo
+        "#9333ea", // Violet
+        "#e11d48", // Pink
+        "#ffb5c0"  // Light Pink
+    ]);
 
     // Pie generator
     const pie = d3.pie<{ type: string; average: number }>()

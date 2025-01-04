@@ -2,15 +2,13 @@
 	import { onMount } from "svelte";
 	import * as d3 from "d3";
 
-	// Dataset
 	import data from "$lib/data/breaches_symbols.json";
 
-	// Helper function to calculate percentage change
 	const calculatePercentageChange = (before: number, after: number): number => {
 		return ((after - before) / before) * 100;
 	};
 
-	// Prepare data for the heatmap
+	// Generate heatmap data
 	const heatmapData = (() => {
 		const impacts: Record<string, Record<string, number[]>> = {};
 
@@ -31,14 +29,21 @@
 			}
 		});
 
-		// Calculate averages
-		return Object.entries(impacts).map(([type, industries]) => {
-			return Object.entries(industries).map(([industry, changes]) => ({
+		// Calculate averages and include all combinations
+		const allTypes = Array.from(new Set(data.flatMap((d) => d.Type)));
+		const allIndustries = Array.from(new Set(data.map((d) => d.Industry)));
+
+		const allCombinations = allTypes.flatMap((type) =>
+			allIndustries.map((industry) => ({
 				type,
 				industry,
-				impact: changes.reduce((acc, cur) => acc + cur, 0) / changes.length,
-			}));
-		}).flat();
+				impact:
+					impacts[type]?.[industry]?.reduce((acc, cur) => acc + cur, 0) /
+						(impacts[type]?.[industry]?.length || 1) || null, // Assign null for missing data
+			}))
+		);
+
+		return allCombinations;
 	})();
 
 	let svg: SVGSVGElement | null = null;
@@ -46,6 +51,28 @@
 	const margin = { top: 20, right: 20, bottom: 40, left: 120 };
 	const width = 800 - margin.left - margin.right;
 	const height = 500 - margin.top - margin.bottom;
+
+	let tooltip = { visible: false, x: 0, y: 0, text: "", color: "" };
+
+	function showTooltip(event: MouseEvent, text: string, sliceColor: string) {
+		const container = document.querySelector('.heatmap-container')!;
+		const containerRect = container.getBoundingClientRect();
+		const tooltipX = event.clientX - containerRect.left + container.scrollLeft;
+		const tooltipY = event.clientY - containerRect.top + container.scrollTop;
+
+		tooltip = {
+			visible: true,
+			x: tooltipX,
+			y: tooltipY,
+			text,
+			color: sliceColor,
+		};
+	}
+
+
+	function hideTooltip() {
+		tooltip.visible = false;
+	}
 
 	onMount(() => {
 		const svgEl = d3
@@ -55,18 +82,17 @@
 			.append("g")
 			.attr("transform", `translate(${margin.left},${margin.top})`);
 
-		// Extract unique breach types and industries
 		const types = Array.from(new Set(heatmapData.map((d) => d.type)));
 		const industries = Array.from(new Set(heatmapData.map((d) => d.industry)));
 
-		// Define scales
 		const x = d3.scaleBand().domain(industries).range([0, width]).padding(0.05);
 		const y = d3.scaleBand().domain(types).range([0, height]).padding(0.05);
 		const color = d3
 			.scaleSequential(d3.interpolateRdYlGn)
-			.domain(d3.extent(heatmapData, (d) => d.impact) as [number, number]);
+			.domain([d3.min(heatmapData, (d) => d.impact) || -100, d3.max(heatmapData, (d) => d.impact) || 100]);
 
-		// Add axes
+		const fallbackColor = "#444444";
+
 		svgEl
 			.append("g")
 			.attr("transform", `translate(0,${height})`)
@@ -80,23 +106,43 @@
 			.select(".domain")
 			.remove();
 
-        // Add heatmap rectangles
-        svgEl
-            .selectAll()
-            .data(heatmapData, (d: any) => `${d.type}:${d.industry}`)
-            .join("rect")
-            .attr("x", (d) => x(d.industry) ?? 0) // Ensure fallback to 0
-            .attr("y", (d) => y(d.type) ?? 0)     // Ensure fallback to 0
-            .attr("width", x.bandwidth())
-            .attr("height", y.bandwidth())
-            .style("fill", (d) => color(d.impact))
-            .style("stroke", "white");
-
+		svgEl
+			.selectAll()
+			.data(heatmapData)
+			.join("rect")
+			.attr("x", (d) => x(d.industry) ?? 0)
+			.attr("y", (d) => y(d.type) ?? 0)
+			.attr("width", x.bandwidth())
+			.attr("height", y.bandwidth())
+			.style("fill", (d) => (d.impact != null ? color(d.impact) : fallbackColor))
+			.style("stroke", "white")
+			.on("mouseenter", (event, d) => {
+				if (d.impact != null) {
+					showTooltip(event, `${d.impact.toFixed(2)}% change`, color(d.impact));
+				}
+			})
+			.on("mouseleave", hideTooltip);
 	});
 </script>
 
-<div class="heatmap-container">
+<div class="heatmap-container relative">
 	<svg bind:this={svg}></svg>
+
+	<!-- Tooltip -->
+	{#if tooltip.visible}
+		<div
+			class="absolute bg-gray-800 text-white p-2 rounded shadow"
+			style="top: {tooltip.y}px; left: {tooltip.x}px; transform: translate(-50%, -100%);"
+		>
+			<div class="flex items-center gap-2">
+				<div
+					class="w-4 h-4 rounded"
+					style="background-color: {tooltip.color}"
+				></div>
+				<span>{tooltip.text}</span>
+			</div>
+		</div>
+	{/if}
 </div>
 
 <style>
@@ -105,7 +151,56 @@
 		justify-content: center;
 		align-items: center;
 	}
+
+	.relative {
+		position: relative;
+	}
+
 	svg {
 		font-family: sans-serif;
+	}
+
+	.absolute {
+		position: absolute;
+	}
+
+	.bg-gray-800 {
+		background-color: #2d3748;
+	}
+
+	.text-white {
+		color: white;
+	}
+
+	.rounded {
+		border-radius: 0.25rem;
+	}
+
+	.shadow {
+		box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+	}
+
+	.flex {
+		display: flex;
+	}
+
+	.items-center {
+		align-items: center;
+	}
+
+	.gap-2 {
+		gap: 0.5rem;
+	}
+
+	.w-4 {
+		width: 1rem;
+	}
+
+	.h-4 {
+		height: 1rem;
+	}
+
+	.p-2 {
+		padding: 0.5rem;
 	}
 </style>
