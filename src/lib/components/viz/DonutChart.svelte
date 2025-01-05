@@ -57,7 +57,7 @@
 
 	const arc = d3
 		.arc<d3.PieArcDatum<{ type: string; average: number }>>()
-		.innerRadius(radius / 2) // Donut hole size
+		.innerRadius(radius / 2)
 		.outerRadius(radius);
 
 	let tooltip = $state({
