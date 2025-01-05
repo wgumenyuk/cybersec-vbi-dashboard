@@ -49,10 +49,10 @@
 
 {#snippet row(item: (typeof dataset)[0])}
 	<span class="block w-full">
-		<Link href="/what/{item.Symbol}">{item.Company}</Link>
+		<Link href={`/breach/${item.Symbol}`}>{item.Company}</Link>
 	</span>
 	<span class="block w-full">
-		<Link href="/what/{item.Symbol}">{item.Symbol}</Link>
+		<Link href={`/breach/${item.Symbol}`}>{item.Symbol}</Link>
 	</span>
 	<span class="block w-full">{item.Industry}</span>
 	<span class="block w-full">{item.Date}</span>
@@ -130,17 +130,17 @@
 		</Card>
 		<Card class="text-center">
 			<span>Breach Distribution amongst Types and Industries</span>
-			<div class="h-full w-full">
+			<div class="w-full h-full">
 				<Heatmap />
 			</div>
 		</Card>
 	</div>
-	<div class="flex w-[35%] flex-col gap-8">
-		<Card class="align-center flex grow flex-col justify-around">
+	<div class="flex flex-col w-[35%] gap-8">
+		<Card class="flex flex-col grow align-center justify-around">
 			<span>Stock Price Impact by Breach Type</span>
 			<StockByType />
 		</Card>
-		<Card class="align-center flex grow flex-col justify-around">
+		<Card class="flex flex-col grow align-center justify-around">
 			<span>Number of People Affected by Breach Type</span>
 			<DonutChart />
 		</Card>

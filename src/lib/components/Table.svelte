@@ -4,7 +4,6 @@
 		ArrowDownWideNarrowIcon
 	} from "lucide-svelte";
 
-	// Types
 	import type { Snippet } from "svelte";
 
 	type SortDirection = "asc" | "desc";
@@ -15,79 +14,59 @@
 		row
 	}: {
 		columns: string[];
-		// eslint-disable-next-line no-undef
 		rows: T[];
-		// eslint-disable-next-line no-undef
 		row: Snippet<[item: T]>;
 	} = $props();
 
-	const parseDate = (value: unknown) => {
-		const [month, year] = String(value)
-			.split("-")
-			.map((v) =>
-				v.startsWith("0") ? parseInt(v.slice(1)) : parseInt(v)
-			);
+	// Declare reactive state variables
+	let sortColumn = $state<string>("");
+	let sortDirection = $state<SortDirection>("asc");
 
-		if (!isNaN(month) && !isNaN(year)) {
-			return new Date(Number(year), Number(month) - 1);
-		}
-
-		return null;
-	};
-
-	// eslint-disable-next-line @typescript-eslint/no-explicit-any
-	const compare = (a: any, b: any, sortDirection: SortDirection) => {
+	const compare = (a: unknown, b: unknown, sortDirection: SortDirection): number => {
 		if (a === b) return 0;
-		if (a === "Unknown" && b !== "Unknown") return 1;
-		if (a !== "Unknown" && b === "Unknown") return -1;
+		if (a === "Unknown") return 1;
+		if (b === "Unknown") return -1;
 
-		const da = parseDate(a);
-		const db = parseDate(b);
+		const dateA = parseDate(a);
+		const dateB = parseDate(b);
 
-		if (da && db) {
+		if (dateA && dateB) {
 			return sortDirection === "asc"
-				? da.getTime() - db.getTime()
-				: db.getTime() - da.getTime();
+				? dateA.getTime() - dateB.getTime()
+				: dateB.getTime() - dateA.getTime();
 		}
 
-		if (da && !db) return 1;
-		if (!da && db) return -1;
-
-		if (!isNaN(a) && !isNaN(b)) {
+		if (typeof a === "number" && typeof b === "number") {
 			return sortDirection === "asc" ? a - b : b - a;
 		}
 
-		if (!isNaN(a) && isNaN(b)) return 1;
-		if (isNaN(a) && !isNaN(b)) return -1;
+		return sortDirection === "asc"
+			? String(a).localeCompare(String(b))
+			: String(b).localeCompare(String(a));
+	};
 
-		const comparison = String(a).localeCompare(String(b), undefined, {
-			sensitivity: "base"
-		});
-
-		return sortDirection === "asc" ? comparison : -comparison;
+	const parseDate = (value: unknown): Date | null => {
+		if (typeof value === "string") {
+			const [month, year] = value.split("-").map(Number);
+			if (!isNaN(month) && !isNaN(year)) {
+				return new Date(year, month - 1);
+			}
+		}
+		return null;
 	};
 
 	const toggleSort = (column: string) => {
 		if (sortColumn === column) {
 			sortDirection = sortDirection === "asc" ? "desc" : "asc";
-			return;
+		} else {
+			sortColumn = column;
+			sortDirection = "asc";
 		}
-
-		sortColumn = column;
-		sortDirection = "asc";
 	};
 
-	let sortColumn = $state<string>("");
-	let sortDirection = $state<SortDirection>("asc");
-
 	let sortedRows = $derived.by(() => {
-		if (!sortColumn) {
-			return rows;
-		}
-
-		return rows.toSorted((a, b) =>
-			compare(a[sortColumn], b[sortColumn], sortDirection)
-		);
+		if (!sortColumn) return rows;
+		return rows.slice().sort((a, b) => compare(a[sortColumn], b[sortColumn], sortDirection));
 	});
 </script>
 
