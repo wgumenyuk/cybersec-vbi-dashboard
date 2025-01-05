@@ -49,10 +49,10 @@
 
 {#snippet row(item: (typeof dataset)[0])}
 	<span class="block w-full">
-		<Link href={`/breach/${item.Symbol}`}>{item.Company}</Link>
+		<Link href={`/breach/${item.ID}`}>{item.Company}</Link>
 	</span>
 	<span class="block w-full">
-		<Link href={`/breach/${item.Symbol}`}>{item.Symbol}</Link>
+		<Link href={`/breach/${item.ID}`}>{item.Symbol}</Link>
 	</span>
 	<span class="block w-full">{item.Industry}</span>
 	<span class="block w-full">{item.Date}</span>
