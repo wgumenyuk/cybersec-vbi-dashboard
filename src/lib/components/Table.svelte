@@ -14,15 +14,21 @@
 		row
 	}: {
 		columns: string[];
+		/* eslint-disable no-undef */
 		rows: T[];
 		row: Snippet<[item: T]>;
+		/* eslint-enable no-undef */
 	} = $props();
 
 	// Declare reactive state variables
 	let sortColumn = $state<string>("");
 	let sortDirection = $state<SortDirection>("asc");
 
-	const compare = (a: unknown, b: unknown, sortDirection: SortDirection): number => {
+	const compare = (
+		a: unknown,
+		b: unknown,
+		sortDirection: SortDirection
+	): number => {
 		if (a === b) return 0;
 		if (a === "Unknown") return 1;
 		if (b === "Unknown") return -1;
@@ -66,7 +72,11 @@
 
 	let sortedRows = $derived.by(() => {
 		if (!sortColumn) return rows;
-		return rows.slice().sort((a, b) => compare(a[sortColumn], b[sortColumn], sortDirection));
+		return rows
+			.slice()
+			.sort((a, b) =>
+				compare(a[sortColumn], b[sortColumn], sortDirection)
+			);
 	});
 </script>
 
