@@ -3,6 +3,7 @@
 	import { page } from "$app/stores";
 	import Nav from "$components/Nav.svelte";
 	import dataset from "$lib/data/breaches_symbols.json"; // Import the dataset
+	import AffectedPeople from "$components/viz/AffectedPeopleBarChart.svelte";
 
 	// Define the type for your dataset rows
 	type BreachData = {
@@ -59,7 +60,7 @@
 </Nav>
 
 {#if breachData}
-	<!-- Flex Container for KPIs -->
+	<!-- Heading -->
 	<div class="flex flex-wrap justify-between gap-4 mb-8">
 		<!-- Company Name KPI -->
 		<Card class="flex flex-col items-center justify-center flex-grow">
@@ -80,39 +81,40 @@
 		</Card>
 	</div>
 
-	<div class="flex flex-col items-center justify-center flex-grow">
-		<!-- Industry KPI -->
-		<Card class="flex flex-col items-center justify-center flex-grow">
-			<h3 class="text-lg font-semibold text-silver-600">Industry</h3>
-			<p class="text-xl font-bold">{breachData.Industry}</p>
-		</Card>
+	<!-- Basic Info -->
+	<div class="flex justify-between items-center">
+		<div class="grid grid-cols-2 gap-2">
+			<!-- Industry KPI -->
+			<Card class="flex flex-col items-center justify-center flex-grow">
+				<h3 class="text-lg font-semibold text-silver-600">Industry</h3>
+				<p class="text-xl font-bold">{breachData.Industry}</p>
+			</Card>
 
-		<!-- Breach Type KPI -->
-		<Card class="flex flex-col items-center justify-center flex-grow">
-			<h3 class="text-lg font-semibold text-silver-600">Type</h3>
-			<p class="text-xl font-bold">{breachData.Type.join(", ")}</p>
-		</Card>
+			<!-- Breach Type KPI -->
+			<Card class="flex flex-col items-center justify-center flex-grow">
+				<h3 class="text-lg font-semibold text-silver-600">Type</h3>
+				<p class="text-xl font-bold">{breachData.Type.join(", ")}</p>
+			</Card>
 
-		<!-- # of affected People KPI -->
-		<Card class="flex flex-col items-center justify-center flex-grow">
-			<h3 class="text-lg font-semibold text-silver-600">Affected</h3>
-			<p class="text-xl font-bold">{breachData.Affected}</p>
-		</Card>
+			<!-- # of affected People KPI -->
+			<Card class="flex flex-col items-center justify-center flex-grow m">
+				<h3 class="text-lg font-semibold text-silver-600">Affected</h3>
+				<p class="text-xl font-bold">{breachData.Affected}</p>
+			</Card>
 
-		<!-- Stock Price Change KPI -->
-		<Card class="flex flex-col items-center justify-center flex-grow">
-			<h3 class="text-lg font-semibold text-silver-600">Price Change in %</h3>
-			<p class="text-xl font-bold">{percentageChange}</p>
-		</Card>
+			<!-- Stock Price Change KPI -->
+			<Card class="flex flex-col items-center justify-center flex-grow">
+				<h3 class="text-lg font-semibold text-silver-600">Price Change in %</h3>
+				<p class="text-xl font-bold">{percentageChange}</p>
+			</Card>
+		</div>
+		<div class="flex justify-center items-center">
+			<Card>
+				<h3 class="text-lg font-semibold">Comparison of Affected People</h3>
+				<AffectedPeople {breachData} {dataset} />
+			</Card>
+		</div>
 	</div>
-
-	<!-- Additional Details -->
-	<Card>
-		<h2 class="text-xl font-bold">Breach #{breachData.ID}</h2>
-		<p>Industry: {breachData.Industry}</p>
-		<p>Type: {breachData.Type.join(", ")}</p>
-		<p>Affected: {breachData.Affected}</p>
-	</Card>
 {:else}
 	<p>No data found for this breach.</p>
 {/if}
