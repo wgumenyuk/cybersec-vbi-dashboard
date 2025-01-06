@@ -152,9 +152,9 @@
 
 <Card class="flex w-full grow flex-col justify-around gap-4">
 	<span class="h-full dark:text-silver-400">Avg. Stock Price Change</span>
-	<span class="text-2xl text-emerald-600 dark:text-emerald-400"
-		>+{format(averageStockPriceChange)}%</span
-	>
+	<span class="text-2xl text-emerald-600 dark:text-emerald-400">
+		+{format(averageStockPriceChange)}%
+	</span>	
 </Card>
 
 <Card class="flex w-full grow flex-col justify-around gap-4">

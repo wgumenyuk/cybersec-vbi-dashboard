@@ -15,9 +15,9 @@ with open(csv_file_path) as csv_file:
 			"Industry": row["Industry"],
 			"Date": row["Date"],
 			"Type": re.split(",\\s*", row["Type"]),
-			"Pre-Attack Stock Price": row["Avg Pre-Attack Price"],
-			"Stock Price during the Attack": row["Attack Month Price"],
-			"Post-Attack Stock Price": row["Avg Post-Attack Price"]
+			"Pre": row["Pre"],
+			"During": row["During"],
+			"Post": row["Post"]
 		}
 
 		try:

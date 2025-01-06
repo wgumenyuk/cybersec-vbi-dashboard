@@ -1,4 +1,4 @@
-ID,Company,Industry,Symbol,Date,Type,Affected,Source,Avg Pre-Attack Price,Attack Month Price,Avg Post-Attack Price
+ID,Company,Industry,Symbol,Date,Type,Affected,Source,Pre,During,Post
 1,Adobe,Technology,ADBE,10-2013,"Data Breach, Source Code Leak",153.000.000,https://en.wikipedia.org/wiki/Adobe_Inc,"49,4739996","52,40086978","56,02299976"
 2,Adobe,Technology,ADBE,10-2019,Data Breach,7.500.000,https://thehackernews.com/2019/10/adobe-database-leaked.html,"280,0390015","272,0739136","295,5264984"
 3,Apple,Technology,AAPL,07-2013,Data Breach,275.000,https://www.twingate.com/blog/tips/apple-data-breach,"13,09538722","13,20676635","14,99754004"
