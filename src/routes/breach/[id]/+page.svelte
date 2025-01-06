@@ -1,120 +1,112 @@
 <script lang="ts">
-	import Card from "$components/Card.svelte";
 	import { page } from "$app/stores";
-	import Nav from "$components/Nav.svelte";
-	import dataset from "$lib/data/breaches_symbols.json"; // Import the dataset
-	import AffectedPeople from "$components/viz/AffectedPeopleBarChart.svelte";
 
-	// Define the type for your dataset rows
-	type BreachData = {
-		ID: number;
-		Company: string;
-		Symbol: string;
-		Date: string;
-		Industry: string;
-		Type: string[];
-		Affected: number | string;
-		Pre?: number | string;
-		Post?: number | string;
-		During?: number | string;
+	// Components
+	import Nav from "$components/Nav.svelte";
+	import Breadcrumbs from "$components/Breadcrumbs.svelte";
+	import Card from "$components/Card.svelte";
+	import Link from "$components/Link.svelte";
+
+	// Dataset
+	import data from "$lib/data/breaches_symbols.json";
+
+	const { format: formatDate } = new Intl.DateTimeFormat("en-US", {
+		month: "long",
+		year: "numeric"
+	});
+
+	const { format: formatNumber } = new Intl.NumberFormat("en-US", {
+		notation: "compact"
+	});
+
+	const parseDate = (date: string) => {
+		const [month, year] = date.split("-").map(Number);
+
+		if (!isNaN(month) && !isNaN(year)) {
+			return formatDate(new Date(year, month - 1));
+		}
+
+		return "";
 	};
 
-	let id: number = 0; // ID as a number
-	let breachData: BreachData | null = null; // Explicit type for breachData
-
-	// Extract ID from route params and find matching row
-	$: {
-		id = parseInt($page.params.id); // Parse ID as number
-		breachData = dataset.find((item) => item.ID === id) || null;
-	}
-
-	// Calculate stock prices and percentage change
-	let stockPriceBefore = 0;
-	let stockPriceAfter = 0;
-	let percentageChange = "N/A";
-
-	$: {
-		if (breachData) {
-			stockPriceBefore = breachData.Pre ? parseFloat(breachData.Pre as string) : 0;
-			stockPriceAfter = breachData.Post ? parseFloat(breachData.Post as string) : 0;
-			percentageChange = calculatePercentageChange(stockPriceBefore, stockPriceAfter);
-		}
-	}
-
-	function calculatePercentageChange(before: number, after: number): string {
-		if (before === 0) return "N/A"; // Avoid division by zero
-		const change = ((after - before) / before) * 100;
-		return `${change > 0 ? "+" : ""}${change.toFixed(2)}%`;
-	}
+	const { id } = $page.params;
+	const breach = data.find((b) => b.ID === Number(id));
 </script>
 
 <Nav title="Breach Details">
-	<!-- Back Button -->
-	<button
-		type="button"
-		class="text-silver-500 hover:underline"
-		on:click={() => history.back()}
-	>
-		&larr; Back
-	</button>
+	<Breadcrumbs
+		nodes={[
+			{
+				label: "Dashboard",
+				href: "/"
+			},
+			{
+				label: "Breach Analysis",
+				href: "/what"
+			},
+			{
+				label: `Breach #${id}`,
+				href: `/breach/${id}`
+			}
+		]}
+	/>
 </Nav>
 
-{#if breachData}
-	<!-- Heading -->
-	<div class="flex flex-wrap justify-between gap-4 mb-8">
-		<!-- Company Name KPI -->
-		<Card class="flex flex-col items-center justify-center flex-grow">
-			<h3 class="text-lg font-semibold text-silver-600">Company</h3>
-			<p class="text-xl font-bold">{breachData.Company}</p>
-		</Card>
-
-		<!-- Company Symbol KPI -->
-		<Card class="flex flex-col items-center justify-center flex-grow">
-			<h3 class="text-lg font-semibold text-silver-600">Symbol</h3>
-			<p class="text-xl font-bold">{breachData.Symbol}</p>
-		</Card>
-
-		<!-- Breach Date KPI -->
-		<Card class="flex flex-col items-center justify-center flex-grow">
-			<h3 class="text-lg font-semibold text-silver-600">Date</h3>
-			<p class="text-xl font-bold">{breachData.Date}</p>
-		</Card>
-	</div>
-
-	<!-- Basic Info -->
-	<div class="flex justify-between items-center">
-		<div class="grid grid-cols-2 gap-2">
-			<!-- Industry KPI -->
-			<Card class="flex flex-col items-center justify-center flex-grow">
-				<h3 class="text-lg font-semibold text-silver-600">Industry</h3>
-				<p class="text-xl font-bold">{breachData.Industry}</p>
-			</Card>
-
-			<!-- Breach Type KPI -->
-			<Card class="flex flex-col items-center justify-center flex-grow">
-				<h3 class="text-lg font-semibold text-silver-600">Type</h3>
-				<p class="text-xl font-bold">{breachData.Type.join(", ")}</p>
-			</Card>
-
-			<!-- # of affected People KPI -->
-			<Card class="flex flex-col items-center justify-center flex-grow m">
-				<h3 class="text-lg font-semibold text-silver-600">Affected</h3>
-				<p class="text-xl font-bold">{breachData.Affected}</p>
-			</Card>
-
-			<!-- Stock Price Change KPI -->
-			<Card class="flex flex-col items-center justify-center flex-grow">
-				<h3 class="text-lg font-semibold text-silver-600">Price Change in %</h3>
-				<p class="text-xl font-bold">{percentageChange}</p>
-			</Card>
+<Card class="flex flex-col gap-6">
+	{#if breach}
+		<div class="flex items-center gap-4">
+			<Link href="https://finance.yahoo.com/quote/{breach.Symbol}">
+				<span class="text-2xl font-bold">{breach.Company}</span>
+			</Link>
+			<span
+				class="rounded px-2 py-1 text-sm dark:bg-silver-800 dark:text-silver-400"
+				>{breach.Symbol}</span
+			>
 		</div>
-		<div class="flex justify-center items-center">
-			<Card>
-				<h3 class="text-lg font-semibold">Comparison of Affected People</h3>
-				<AffectedPeople {breachData} {dataset} />
-			</Card>
+
+		<!-- Industry -->
+		<div class="flex flex-col gap-1">
+			<span class="text-sm font-bold uppercase dark:text-silver-400"
+				>Industry</span
+			>
+			<span>{breach.Industry}</span>
 		</div>
-	</div>
-{:else}
-	<p>No data found for this breach.</p>
-{/if}
+
+		<!-- Breach Type -->
+		<div class="flex flex-col gap-1">
+			<span class="text-sm font-bold uppercase dark:text-silver-400"
+				>Breach Type</span
+			>
+			<div class="flex gap-2">
+				{#each breach.Type as type}
+					<span
+						class="rounded px-2 py-1 dark:bg-silver-800 dark:text-silver-400"
+						>{type}</span
+					>
+				{/each}
+			</div>
+		</div>
+
+		<!-- Date -->
+		<div class="flex flex-col gap-1">
+			<span class="text-sm font-bold uppercase dark:text-silver-400"
+				>Date</span
+			>
+			<span>{parseDate(breach.Date)}</span>
+		</div>
+
+		<!-- Affected -->
+		<div class="flex flex-col gap-1">
+			<span class="text-sm font-bold uppercase dark:text-silver-400"
+				># of Affected</span
+			>
+			{#if typeof breach.Affected === "number"}
+				<span>{formatNumber(breach.Affected)}</span>
+			{:else}
+				<span>Unknown / Undisclosed</span>
+			{/if}
+		</div>
+	{:else}
+		<span>Breach not found.</span>
+	{/if}
+</Card>
