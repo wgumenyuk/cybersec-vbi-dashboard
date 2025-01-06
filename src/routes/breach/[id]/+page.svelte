@@ -4,25 +4,47 @@
 	import Nav from "$components/Nav.svelte";
 	import dataset from "$lib/data/breaches_symbols.json"; // Import the dataset
 
-	let id: number = "";
-	let breachData = null;
+	// Define the type for your dataset rows
+	type BreachData = {
+		ID: number;
+		Company: string;
+		Symbol: string;
+		Date: string;
+		Industry: string;
+		Type: string[];
+		Affected: number | string;
+		Pre?: number | string;
+		Post?: number | string;
+		During?: number | string;
+	};
+
+	let id: number = 0; // ID as a number
+	let breachData: BreachData | null = null; // Explicit type for breachData
 
 	// Extract ID from route params and find matching row
 	$: {
-		id = $page.params.id;
-		breachData = dataset.find((item) => item.ID == id);
+		id = parseInt($page.params.id); // Parse ID as number
+		breachData = dataset.find((item) => item.ID === id) || null;
 	}
 
-	let stockPriceBefore = breachData?.Pre || 0;
-	let stockPriceAfter = breachData?.Post  || 0;
+	// Calculate stock prices and percentage change
+	let stockPriceBefore = 0;
+	let stockPriceAfter = 0;
+	let percentageChange = "N/A";
 
-	// function calculatePercentageChange(before: number, after: number): string {
-	// 	if (before === 0) return "N/A"; // Avoid division by zero
-	// 	const change = ((after - before) / before) * 100;
-	// 	return `${change > 0 ? "+" : ""}${change.toFixed(2)}%`;
-	// }
+	$: {
+		if (breachData) {
+			stockPriceBefore = breachData.Pre ? parseFloat(breachData.Pre as string) : 0;
+			stockPriceAfter = breachData.Post ? parseFloat(breachData.Post as string) : 0;
+			percentageChange = calculatePercentageChange(stockPriceBefore, stockPriceAfter);
+		}
+	}
 
-	// let percentageChange = calculatePercentageChange(stockPriceBefore, stockPriceAfter);
+	function calculatePercentageChange(before: number, after: number): string {
+		if (before === 0) return "N/A"; // Avoid division by zero
+		const change = ((after - before) / before) * 100;
+		return `${change > 0 ? "+" : ""}${change.toFixed(2)}%`;
+	}
 </script>
 
 <Nav title="Breach Details">
@@ -68,7 +90,7 @@
 		<!-- Breach Type KPI -->
 		<Card class="flex flex-col items-center justify-center flex-grow">
 			<h3 class="text-lg font-semibold text-silver-600">Type</h3>
-			<p class="text-xl font-bold">{breachData.Type}</p>
+			<p class="text-xl font-bold">{breachData.Type.join(", ")}</p>
 		</Card>
 
 		<!-- # of affected People KPI -->
@@ -80,7 +102,7 @@
 		<!-- Stock Price Change KPI -->
 		<Card class="flex flex-col items-center justify-center flex-grow">
 			<h3 class="text-lg font-semibold text-silver-600">Price Change in %</h3>
-			<p class="text-xl font-bold">{breachData.Date}</p>
+			<p class="text-xl font-bold">{percentageChange}</p>
 		</Card>
 	</div>
 

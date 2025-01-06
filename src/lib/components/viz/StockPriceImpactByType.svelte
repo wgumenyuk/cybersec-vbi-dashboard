@@ -17,8 +17,8 @@
 		const impacts: Record<string, number[]> = {};
 
 		data.forEach((d) => {
-			const stockPriceBefore = parseFloat(d["Pre-Attack Stock Price"]);
-			const stockPriceAfter = parseFloat(d["Post-Attack Stock Price"]);
+			const stockPriceBefore = parseFloat(d["Pre"]);
+			const stockPriceAfter = parseFloat(d["Post"]);
 			const types = d.Type;
 
 			if (

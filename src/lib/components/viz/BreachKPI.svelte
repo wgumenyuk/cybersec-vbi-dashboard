@@ -38,8 +38,8 @@
 		let company = "";
 
 		data.forEach((d) => {
-			const stockPriceBefore = parseFloat(d["Pre-Attack Stock Price"]);
-			const stockPriceAfter = parseFloat(d["Post-Attack Stock Price"]);
+			const stockPriceBefore = parseFloat(d["Pre"]);
+			const stockPriceAfter = parseFloat(d["Post"]);
 
 			if (
 				!isNaN(stockPriceBefore) &&
@@ -81,10 +81,10 @@
 			.map((d) => {
 				// Parse stock prices
 				const stockPriceBefore = parseFloat(
-					d["Pre-Attack Stock Price"]
+					d["Pre"]
 				);
 				const stockPriceAfter = parseFloat(
-					d["Post-Attack Stock Price"]
+					d["Post"]
 				);
 
 				// Check if both values are valid numbers
