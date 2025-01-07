@@ -2,8 +2,6 @@
 	import { page } from "$app/stores";
 
 	// Components
-	import Nav from "$components/Nav.svelte";
-	import Breadcrumbs from "$components/Breadcrumbs.svelte";
 	import Card from "$components/Card.svelte";
 	import Link from "$components/Link.svelte";
 	import AffectedPeopleBC from "$components/viz/AffectedPeopleBarChart.svelte";
@@ -32,6 +30,12 @@
 
 	const { id } = $page.params;
 	const breach = data.find((b) => b.ID === Number(id));
+
+	const pre = Number(breach?.Pre);
+	const during = Number(breach?.During);
+	const post = Number(breach?.Post);
+
+	const stockChange = ((post - pre) / pre) * 100;
 </script>
 
 <Nav title="Breach Details">

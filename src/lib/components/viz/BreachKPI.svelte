@@ -135,7 +135,7 @@
 	<span class="h-full dark:text-silver-400">Largest Stock Decline</span>
 	<div class="flex items-center gap-4">
 		<span class="text-2xl text-rose-600 dark:text-rose-400">
-			{maxDrop}%
+			{format(maxDrop)}%
 		</span>
 		<span class="text-xs">{company}</span>
 	</div>

@@ -25,6 +25,12 @@ with open(csv_file_path) as csv_file:
 		except ValueError:
 			item["Affected"] = "Unknown"
 
+		for key in ("Pre", "During", "Post"):
+			try:
+				item[key] = float(row[key].replace(",", "."))
+			except ValueError:
+				item[key] = None
+			
 		rows.append(item)
 
 	with open(json_file_path, "w") as json_file:

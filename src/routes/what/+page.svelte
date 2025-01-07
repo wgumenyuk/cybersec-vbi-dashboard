@@ -39,9 +39,9 @@
 				.flat()
 				.some((value) =>
 					value
-						.toString()
-						.toLowerCase()
-						.includes(searchQuery.toLowerCase())
+						?.toString()
+						?.toLowerCase()
+						?.includes(searchQuery.toLowerCase())
 				);
 		});
 	});
