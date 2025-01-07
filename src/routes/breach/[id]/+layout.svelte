@@ -29,6 +29,6 @@
 	/>
 </Nav>
 
-<div class="flex gap-8">
+<div class="flex grow gap-8">
 	{@render children()}
 </div>
