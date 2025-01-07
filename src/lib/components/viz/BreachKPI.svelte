@@ -80,12 +80,8 @@
 		const percentageChanges = data
 			.map((d) => {
 				// Parse stock prices
-				const stockPriceBefore = parseFloat(
-					d["Pre"]
-				);
-				const stockPriceAfter = parseFloat(
-					d["Post"]
-				);
+				const stockPriceBefore = parseFloat(d["Pre"]);
+				const stockPriceAfter = parseFloat(d["Post"]);
 
 				// Check if both values are valid numbers
 				if (
@@ -154,7 +150,7 @@
 	<span class="h-full dark:text-silver-400">Avg. Stock Price Change</span>
 	<span class="text-2xl text-emerald-600 dark:text-emerald-400">
 		+{format(averageStockPriceChange)}%
-	</span>	
+	</span>
 </Card>
 
 <Card class="flex w-full grow flex-col justify-around gap-4">

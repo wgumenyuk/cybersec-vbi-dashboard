@@ -113,6 +113,7 @@
 <svg
 	class="h-full w-full"
 	viewBox={`0 0 ${width + margin.left + margin.right} ${height + margin.top + margin.bottom}`}
+	style="font-family: Arial, sans-serif;"
 >
 	<g transform={`translate(${margin.left},${margin.top})`}>
 		<!-- Bars -->
@@ -122,7 +123,7 @@
 				aria-label={`Bar representing ${label}: ${value.toFixed(0)} people affected`}
 				x={x(label) ?? 0}
 				y={y(value) ?? 0}
-				width={x.bandwidth()}
+				width={x.bandwidth() * 0.4}
 				height={height - (y(value) ?? 0)}
 				fill={color}
 				onmouseenter={(e) => showTooltip(e, value, color)}
@@ -136,7 +137,7 @@
 				{#each x.domain() as label}
 					<text
 						x={(x(label) ?? 0) + x.bandwidth() / 2}
-						y={height + 30}
+						y={height + 25}
 						text-anchor="middle"
 						class="axis-label"
 					>
@@ -158,63 +159,48 @@
 						class="stroke-gray-300"
 					/>
 					<text
-						x="-10"
+						x="-15"
 						y={y(tick)}
 						text-anchor="end"
 						dy="0.32em"
 						class="axis-label"
 					>
-						{tick}
+						{tick >= 1_000_000
+							? `${(tick / 1_000_000).toFixed(1)}M`
+							: tick >= 1_000
+								? `${(tick / 1_000).toFixed(1)}k`
+								: tick}
+						<!-- Shortened formatting -->
 					</text>
 				</g>
 			{/each}
+
+			<!-- Y-Axis Label -->
+			<text
+				transform="rotate(-90)"
+				x={-height / 2}
+				y={-margin.left + 5}
+				text-anchor="middle"
+				class="axis-label"
+			>
+				People Affected (in Thousands/Millions)
+			</text>
 		{/if}
 	</g>
 </svg>
 
-{#if tooltip.visible}
-	<div
-		class="absolute rounded bg-gray-800 p-2 text-white shadow"
-		style="top: {tooltip.y}px; left: {tooltip.x}px"
-	>
-		<div class="flex items-center gap-2">
-			<div
-				class="h-4 w-4 rounded"
-				style="background-color: {tooltip.color}"
-			></div>
-			<span>{tooltip.text}</span>
-		</div>
-	</div>
-{/if}
-
 <style>
 	text.axis-label {
-		font-size: 14px;
-		font-family: sans-serif;
-		fill: white; /* Ensures white labels */
+		font-size: 12px;
+		fill: #ccc;
 	}
 
 	.stroke-gray-300 {
-		stroke: #ccc;
+		stroke: #e0e0e0;
 	}
 
-	.absolute {
-		position: absolute;
-	}
-
-	.bg-gray-800 {
-		background-color: #2d3748;
-	}
-
-	.text-white {
-		color: white;
-	}
-
-	.rounded {
-		border-radius: 0.25rem;
-	}
-
-	.shadow {
-		box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+	.axis-label {
+		font-size: 12px;
+		fill: #ccc;
 	}
 </style>
