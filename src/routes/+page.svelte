@@ -1,4 +1,5 @@
 <script lang="ts">
+	import Title from "$components/Title.svelte";
 	import { LandPlotIcon, TrendingUpDownIcon, UsersIcon } from "lucide-svelte";
 
 	// Types
@@ -68,6 +69,8 @@
 		</div>
 	</a>
 {/snippet}
+
+<Title value="Welcome" />
 
 <div class="flex grow flex-col items-center justify-center gap-16 pb-16">
 	<div class="flex flex-col items-center gap-8 pb-8">
