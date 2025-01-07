@@ -39,12 +39,14 @@
 				.flat()
 				.some((value) =>
 					value
-						.toString()
-						.toLowerCase()
-						.includes(searchQuery.toLowerCase())
+						?.toString()
+						?.toLowerCase()
+						?.includes(searchQuery.toLowerCase())
 				);
 		});
 	});
+
+	$effect(() => console.log(searchQuery));
 </script>
 
 {#snippet row(item: (typeof dataset)[0])}
