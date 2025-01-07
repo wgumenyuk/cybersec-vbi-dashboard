@@ -52,6 +52,8 @@
 		const after = new Date(during);
 		after.setMonth(during.getMonth() + 1);
 
+		const prices = [breach.Pre, breach.During, breach.Post].map(Number);
+
 		new Chart(canvas, {
 			type: "line",
 			data: {
@@ -63,7 +65,7 @@
 				datasets: [
 					{
 						label: "Stock Price (USD)",
-						data: [breach.Pre, breach.During, breach.Post],
+						data: prices,
 						tension: 0.4
 					}
 				]
@@ -89,7 +91,7 @@
 							text: "Stock Price (USD)"
 						},
 						suggestedMin: 0,
-						suggestedMax: Math.round(Number(breach.Post)) + 10,
+						suggestedMax: Math.round(Math.max(...prices)) + 10,
 						grid: {
 							color: "rgba(255, 255, 255, 0.25)"
 						}
