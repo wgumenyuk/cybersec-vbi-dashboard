@@ -8,6 +8,7 @@
 
 	// Dataset
 	import data from "$lib/data/breaches_symbols.json";
+	import { onMount } from "svelte";
 
 	const { format: formatDate } = new Intl.DateTimeFormat("en-US", {
 		month: "long",
@@ -31,31 +32,22 @@
 	const { id } = $page.params;
 	const breach = data.find((b) => b.ID === Number(id));
 
-	const pre = Number(breach?.Pre);
-	const during = Number(breach?.During);
-	const post = Number(breach?.Post);
+	const pre = breach?.Pre !== null ? Number(breach?.Pre) : null;
+	const during = breach?.During !== null ? Number(breach?.During) : null;
+	const post = breach?.Post !== null ? Number(breach?.Post) : null;
 
-	const stockChange = ((post - pre) / pre) * 100;
+	let stockChange = $state<number>();
+
+	onMount(() => {
+		if (
+			typeof pre === "number" &&
+			typeof during === "number" &&
+			typeof post === "number"
+		) {
+			stockChange = ((post - pre) / pre) * 100;
+		}
+	});
 </script>
-
-<Nav title="Breach Details">
-	<Breadcrumbs
-		nodes={[
-			{
-				label: "Dashboard",
-				href: "/"
-			},
-			{
-				label: "Breach Analysis",
-				href: "/what"
-			},
-			{
-				label: `Breach #${id}`,
-				href: `/breach/${id}`
-			}
-		]}
-	/>
-</Nav>
 
 <div class="flex flex-col gap-6">
 	<!-- Full-Width Div 1 -->
@@ -111,6 +103,27 @@
 					<span>{formatNumber(breach.Affected)}</span>
 				{:else}
 					<span>Unknown / Undisclosed</span>
+				{/if}
+			</div>
+			<!-- Stock Change -->
+			<div class="flex flex-col gap-1">
+				<span class="text-sm font-bold uppercase dark:text-silver-400"
+					>Stock Change</span
+				>
+				{#if stockChange && pre && during && post}
+					<span
+						class={[
+							stockChange < 0 &&
+								"text-rose-600 dark:text-rose-400",
+							stockChange > 0 &&
+								"text-emerald-600 dark:text-emerald-400"
+						]}
+						>{stockChange > 0 ? "+" : ""}{formatNumber(
+							stockChange!
+						)}%</span
+					>
+				{:else}
+					<span>Undeterminable due to incomplete data</span>
 				{/if}
 			</div>
 		{:else}

@@ -35,9 +35,9 @@
 
 	const breach = data.find((d) => d.ID === breachID);
 
-	const pre = isNaN(Number(breach?.Pre));
-	const during = isNaN(Number(breach?.Pre));
-	const post = isNaN(Number(breach?.Pre));
+	const pre = breach?.Pre !== null ? Number(breach?.Pre) : null;
+	const during = breach?.Pre !== null ? Number(breach?.During) : null;
+	const post = breach?.Pre !== null ? Number(breach?.Post) : null;
 
 	onMount(() => {
 		if (!breach || !pre || !during || !post) {
