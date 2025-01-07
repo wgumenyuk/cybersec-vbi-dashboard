@@ -89,6 +89,7 @@
 							text: "Stock Price (USD)"
 						},
 						suggestedMin: 0,
+						suggestedMax: Math.round(Number(breach.Post)) + 10,
 						grid: {
 							color: "rgba(255, 255, 255, 0.25)"
 						}
