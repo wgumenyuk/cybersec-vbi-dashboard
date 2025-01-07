@@ -30,6 +30,11 @@
 
 	const { id } = $page.params;
 	const breach = data.find((b) => b.ID === Number(id));
+
+	const pre = Number(breach?.Pre);
+	const post = Number(breach?.Post);
+
+	const stockChange = ((post - pre) / pre) * 100;
 </script>
 
 <Card class="flex w-full gap-12">
@@ -86,6 +91,23 @@
 				{:else}
 					<span>Unknown / Undisclosed</span>
 				{/if}
+			</div>
+
+			<!-- Stock Change -->
+			<div class="flex flex-col gap-1">
+				<span class="text-sm font-bold uppercase dark:text-silver-400"
+					>Stock Change</span
+				>
+				<span
+					class={[
+						stockChange < 0 && "text-rose-600 dark:text-rose-400",
+						stockChange > 0 &&
+							"text-emerald-600 dark:text-emerald-400"
+					]}
+					>{stockChange > 0 ? "+" : ""}{formatNumber(
+						stockChange!
+					)}%</span
+				>
 			</div>
 		{:else}
 			<span>Breach not found.</span>
