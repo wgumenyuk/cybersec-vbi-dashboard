@@ -45,8 +45,6 @@
 				);
 		});
 	});
-
-	$effect(() => console.log(searchQuery));
 </script>
 
 {#snippet row(item: (typeof dataset)[0])}
