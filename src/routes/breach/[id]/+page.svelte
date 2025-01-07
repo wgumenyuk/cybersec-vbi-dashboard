@@ -32,6 +32,7 @@
 	const breach = data.find((b) => b.ID === Number(id));
 
 	const pre = Number(breach?.Pre);
+	const during = Number(breach?.During);
 	const post = Number(breach?.Post);
 
 	const stockChange = ((post - pre) / pre) * 100;
@@ -98,16 +99,21 @@
 				<span class="text-sm font-bold uppercase dark:text-silver-400"
 					>Stock Change</span
 				>
-				<span
-					class={[
-						stockChange < 0 && "text-rose-600 dark:text-rose-400",
-						stockChange > 0 &&
-							"text-emerald-600 dark:text-emerald-400"
-					]}
-					>{stockChange > 0 ? "+" : ""}{formatNumber(
-						stockChange!
-					)}%</span
-				>
+				{#if pre && during && post}
+					<span
+						class={[
+							stockChange < 0 &&
+								"text-rose-600 dark:text-rose-400",
+							stockChange > 0 &&
+								"text-emerald-600 dark:text-emerald-400"
+						]}
+						>{stockChange > 0 ? "+" : ""}{formatNumber(
+							stockChange!
+						)}%</span
+					>
+				{:else}
+					<span>Undeterminable due to incomplete data</span>
+				{/if}
 			</div>
 		{:else}
 			<span>Breach not found.</span>

@@ -33,24 +33,28 @@
 		return null;
 	};
 
+	const breach = data.find((d) => d.ID === breachID);
+
+	const pre = isNaN(Number(breach?.Pre));
+	const during = isNaN(Number(breach?.Pre));
+	const post = isNaN(Number(breach?.Pre));
+
 	onMount(() => {
-		const breach = data.find((d) => d.ID === breachID);
-
-		if (!breach) {
+		if (!breach || !pre || !during || !post) {
 			return;
 		}
 
-		const during = parseDate(breach.Date);
+		const breachDate = parseDate(breach.Date);
 
-		if (!during) {
+		if (!breachDate) {
 			return;
 		}
 
-		const before = new Date(during);
-		before.setMonth(during.getMonth() - 1);
+		const before = new Date(breachDate);
+		before.setMonth(breachDate.getMonth() - 1);
 
-		const after = new Date(during);
-		after.setMonth(during.getMonth() + 1);
+		const after = new Date(breachDate);
+		after.setMonth(breachDate.getMonth() + 1);
 
 		const prices = [breach.Pre, breach.During, breach.Post].map(Number);
 
@@ -59,7 +63,7 @@
 			data: {
 				labels: [
 					formatDate(before),
-					formatDate(during),
+					formatDate(breachDate),
 					formatDate(after)
 				],
 				datasets: [
@@ -103,3 +107,9 @@
 </script>
 
 <canvas bind:this={canvas}></canvas>
+
+{#if !pre || !during || !post}
+	<span class="dark:text-silver-400"
+		>Can't show stock diagram due to incomplete data.</span
+	>
+{/if}
