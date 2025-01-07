@@ -149,14 +149,6 @@
 		flex-direction: row;
 	}
 
-	.w-full {
-		width: 100%;
-	}
-
-	.flex-1 {
-		flex: 1;
-	}
-
 	.gap-6 {
 		gap: 1.5rem; /* Spacing between rows and columns */
 	}
