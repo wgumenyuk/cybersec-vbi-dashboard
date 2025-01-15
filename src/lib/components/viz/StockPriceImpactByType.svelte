@@ -132,8 +132,8 @@
 					x={(x(type) ?? 0) + (x.bandwidth() ?? 0) / 2}
 					y={height + 30}
 					transform={`translate(-10, 0) rotate(45 ${(x(type) ?? 0) + (x.bandwidth() ?? 0) / 2} ${height + 30})`}
-					text-anchor="start"
-					class="italic text-white"
+					text-anchor="start-label"
+					class="text-label italic"
 				>
 					{type}
 				</text>
@@ -148,7 +148,7 @@
 					y={y(tick)}
 					text-anchor="end"
 					dy=".35em"
-					class="text-white"
+					class="text-label"
 				>
 					{tick}%
 				</text>
@@ -192,7 +192,7 @@
 	</div>
 {/if}
 
-<style>
+<style lang="postcss">
 	text {
 		font-size: 18px;
 		font-family: sans-serif;
@@ -202,11 +202,28 @@
 	.axis-title {
 		font-size: 20px;
 		font-weight: bold;
-		fill: white;
 	}
 
-	.stroke-gray-700 {
-		stroke: #555;
+	:global(html[data-theme="dark"]) {
+		.axis-title,
+		.text-label {
+			fill: rgba(255, 255, 255, 0.5);
+		}
+
+		.stroke-gray-700 {
+			stroke: rgba(255, 255, 255, 0.25);
+		}
+	}
+
+	:global(html[data-theme="light"]) {
+		.axis-title,
+		.text-label {
+			fill: rgba(0, 0, 0, 0.5);
+		}
+
+		.stroke-gray-700 {
+			stroke: rgba(0, 0, 0, 0.25);
+		}
 	}
 
 	.stroke-dasharray {

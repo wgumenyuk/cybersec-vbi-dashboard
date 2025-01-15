@@ -14,7 +14,7 @@
 
 	// Helper function for formatting numbers
 	const { format: formatNumber } = new Intl.NumberFormat("en-US", {
-		style: "decimal"
+		notation: "compact"
 	});
 
 	// Helper function to calculate the median
@@ -39,7 +39,7 @@
 	}
 
 	// Chart dimensions
-	const margin = { top: 50, right: 30, bottom: 100, left: 60 };
+	const margin = { top: 50, right: 30, bottom: 100, left: 80 };
 	const width = 800 - margin.left - margin.right;
 	const height = 500 - margin.top - margin.bottom;
 
@@ -91,23 +91,6 @@
 			.domain([0, d3.max(barData, (d) => d.value) || 0])
 			.range([height, 0]);
 	});
-
-	// Tooltip
-	let tooltip = $state({ visible: false, x: 0, y: 0, text: "", color: "" });
-
-	function showTooltip(event: MouseEvent, value: number, color: string) {
-		tooltip = {
-			visible: true,
-			x: event.pageX,
-			y: event.pageY - 40,
-			text: `${formatNumber(value)} People`, // Use formatted value
-			color
-		};
-	}
-
-	function hideTooltip() {
-		tooltip.visible = false;
-	}
 </script>
 
 <svg
@@ -126,8 +109,6 @@
 				width={x.bandwidth() * 0.4}
 				height={height - (y(value) ?? 0)}
 				fill={color}
-				onmouseenter={(e) => showTooltip(e, value, color)}
-				onmouseleave={hideTooltip}
 			/>
 		{/each}
 
@@ -165,12 +146,7 @@
 						dy="0.32em"
 						class="axis-label"
 					>
-						{tick >= 1_000_000
-							? `${(tick / 1_000_000).toFixed(1)}M`
-							: tick >= 1_000
-								? `${(tick / 1_000).toFixed(1)}k`
-								: tick}
-						<!-- Shortened formatting -->
+						{formatNumber(tick)}
 					</text>
 				</g>
 			{/each}
@@ -179,28 +155,41 @@
 			<text
 				transform="rotate(-90)"
 				x={-height / 2}
-				y={-margin.left + 5}
+				y={-margin.left + 10}
 				text-anchor="middle"
 				class="axis-label"
 			>
-				People Affected (in Thousands/Millions)
+				People Affected (in Millions)
 			</text>
 		{/if}
 	</g>
 </svg>
 
-<style>
+<style lang="postcss">
 	text.axis-label {
 		font-size: 12px;
 		fill: #ccc;
 	}
 
-	.stroke-gray-300 {
-		stroke: #e0e0e0;
+	:global(html[data-theme="dark"]) {
+		.stroke-gray-300 {
+			stroke: rgba(255, 255, 255, 0.25);
+		}
+
+		.axis-label {
+			font-size: 12px;
+			stroke: rgba(255, 255, 255, 0.25);
+		}
 	}
 
-	.axis-label {
-		font-size: 12px;
-		fill: #ccc;
+	:global(html[data-theme="light"]) {
+		.stroke-gray-300 {
+			stroke: rgba(0, 0, 0, 0.25);
+		}
+
+		.axis-label {
+			font-size: 12px;
+			stroke: rgba(0, 0, 0, 0.25);
+		}
 	}
 </style>

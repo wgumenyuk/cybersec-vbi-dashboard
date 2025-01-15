@@ -70,7 +70,13 @@
 	const width = 800 - margin.left - margin.right;
 	const height = 500 - margin.top - margin.bottom;
 
-	let tooltip = { visible: false, x: 0, y: 0, text: "", color: "" };
+	let tooltip = $state({
+		visible: false,
+		x: 0,
+		y: 0,
+		text: "",
+		color: ""
+	});
 
 	function showTooltip(event: MouseEvent, text: string, sliceColor: string) {
 		const container = document.querySelector(".heatmap-container")!;
@@ -92,6 +98,11 @@
 	function hideTooltip() {
 		tooltip.visible = false;
 	}
+
+	let theme = $state(document.documentElement.dataset.theme);
+	let fallbackColor = $derived(
+		theme === "dark" ? "rgba(255, 255, 255, 0.25)" : "rgba(0, 0, 0, 0.35)"
+	);
 
 	onMount(() => {
 		const svgEl = d3
@@ -119,9 +130,6 @@
 				d3.min(heatmapData, (d) => d.impact) || -100,
 				d3.max(heatmapData, (d) => d.impact) || 100
 			]);
-
-		//const fallbackColor = "#444444";
-		const fallbackColor = "#302F31";
 
 		svgEl
 			.append("g")

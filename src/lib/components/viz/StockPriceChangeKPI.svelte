@@ -39,6 +39,8 @@
 	const during = breach?.Pre !== null ? Number(breach?.During) : null;
 	const post = breach?.Pre !== null ? Number(breach?.Post) : null;
 
+	let theme = $state(document.documentElement.dataset.theme);
+
 	onMount(() => {
 		if (!breach || !pre || !during || !post) {
 			return;
@@ -85,7 +87,10 @@
 				scales: {
 					x: {
 						grid: {
-							color: "rgba(255, 255, 255, 0.25)"
+							color:
+								theme === "dark"
+									? "rgba(255, 255, 255, 0.25)"
+									: "rgba(0, 0, 0, 0.25)"
 						}
 					},
 					y: {
@@ -97,7 +102,10 @@
 						suggestedMin: 0,
 						suggestedMax: Math.round(Math.max(...prices)) + 10,
 						grid: {
-							color: "rgba(255, 255, 255, 0.25)"
+							color:
+								theme === "dark"
+									? "rgba(255, 255, 255, 0.25)"
+									: "rgba(0, 0, 0, 0.25)"
 						}
 					}
 				}
