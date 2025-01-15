@@ -82,7 +82,7 @@
 </Nav>
 
 <div class="flex gap-8">
-	<div class="flex w-[65%] flex-col gap-8">
+	<div class="mb-8 flex w-[65%] flex-col gap-8">
 		<div class="flex h-32 justify-between gap-8">
 			<BreachKPI />
 		</div>
@@ -129,19 +129,25 @@
 			/>
 		</Card>
 		<Card class="text-center">
-			<span>Breach Distribution amongst Types and Industries</span>
+			<span class="dark:text-silver-400"
+				>Breach Distribution amongst Types and Industries</span
+			>
 			<div class="h-full w-full">
 				<Heatmap />
 			</div>
 		</Card>
 	</div>
-	<div class="flex w-[35%] flex-col gap-8">
-		<Card class="align-center flex grow flex-col justify-around">
-			<span>Stock Price Impact by Breach Type</span>
+	<div class="mb-8 flex w-[35%] flex-col gap-8">
+		<Card class="align-center flex grow flex-col text-center">
+			<span class="pb-8 dark:text-silver-400"
+				>Stock Price Impact by Breach Type</span
+			>
 			<StockByType />
 		</Card>
-		<Card class="align-center flex grow flex-col justify-around">
-			<span>Number of People Affected by Breach Type</span>
+		<Card class="align-center flex grow flex-col text-center">
+			<span class="pb-8 dark:text-silver-400"
+				>Number of People Affected by Breach Type</span
+			>
 			<DonutChart />
 		</Card>
 	</div>

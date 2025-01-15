@@ -1,7 +1,9 @@
 <script lang="ts">
 	import { onMount } from "svelte";
 	import * as d3 from "d3";
+	import { isNumber } from "mathjs";
 
+	// Dataset
 	import data from "$lib/data/breaches_symbols.json";
 
 	const calculatePercentageChange = (
@@ -16,14 +18,18 @@
 		const impacts: Record<string, Record<string, number[]>> = {};
 
 		data.forEach((d) => {
-			const stockPriceBefore = parseFloat(d["Pre"]);
-			const stockPriceAfter = parseFloat(d["Post"]);
+			const stockPriceBefore = d.Pre
+				? parseFloat(d.Pre.toString())
+				: null;
+			const stockPriceAfter = d.Post
+				? parseFloat(d.Post.toString())
+				: null;
 			const industry = d.Industry;
 			const types = d.Type;
 
 			if (
-				!isNaN(stockPriceBefore) &&
-				!isNaN(stockPriceAfter) &&
+				isNumber(stockPriceBefore) &&
+				isNumber(stockPriceAfter) &&
 				stockPriceBefore !== 0
 			) {
 				const percentageChange = calculatePercentageChange(
@@ -108,14 +114,11 @@
 		const y = d3.scaleBand().domain(types).range([0, height]).padding(0.05);
 
 		const color = d3
-			//.scaleSequential(d3.interpolateRdYlGn)
-			.scaleLinear()
+			.scaleSequential(d3.interpolateRdYlGn)
 			.domain([
 				d3.min(heatmapData, (d) => d.impact) || -100,
 				d3.max(heatmapData, (d) => d.impact) || 100
-			])
-			// @ts-expect-error Keine Ahnung, warum hier ein Fehler auftaucht -- funktioniert hervorragend.
-			.range(["#f43f5e", "#10b981"]);
+			]);
 
 		//const fallbackColor = "#444444";
 		const fallbackColor = "#302F31";

@@ -10,7 +10,7 @@
 	const { id } = $page.params;
 </script>
 
-<Nav title="Breach Details">
+<Nav title="Breach Details" previous="/what">
 	<Breadcrumbs
 		nodes={[
 			{

@@ -2,6 +2,7 @@
 	import { page } from "$app/stores";
 
 	// Components
+	import { ArrowRightIcon } from "lucide-svelte";
 	import Card from "$components/Card.svelte";
 	import Link from "$components/Link.svelte";
 	import StockPriceChangeKPI from "$components/viz/StockPriceChangeKPI.svelte";
@@ -18,6 +19,11 @@
 
 	const { format: formatNumber } = new Intl.NumberFormat("en-US", {
 		notation: "compact"
+	});
+
+	const { format: formatCurrency } = new Intl.NumberFormat("en-US", {
+		style: "currency",
+		currency: "USD"
 	});
 
 	const parseDate = (date: string) => {
@@ -129,8 +135,13 @@
 							]}
 							>{stockChange > 0 ? "+" : ""}{formatNumber(
 								stockChange!
-							)}%</span
-						>
+							)}%
+							<span class="dark:text-silver-400"
+								>({formatCurrency(Number(breach.Pre))}
+								<ArrowRightIcon size="1em" class="inline" />
+								{formatCurrency(Number(breach.Post))})</span
+							>
+						</span>
 					{:else}
 						<span>Undeterminable due to incomplete data</span>
 					{/if}
