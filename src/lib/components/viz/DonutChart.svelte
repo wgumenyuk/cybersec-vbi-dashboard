@@ -35,6 +35,10 @@
 			.sort((a, z) => z.average - a.average);
 	})();
 
+	const totalAffected = data
+		.map((d) => (d.Affected !== "Unknown" ? Number(d.Affected) : 0))
+		.reduce((acc, cur) => acc + cur);
+
 	const { format: formatNumber } = new Intl.NumberFormat("en-US", {
 		notation: "compact"
 	});
@@ -71,7 +75,11 @@
 					},
 					tooltip: {
 						callbacks: {
-							label: (ctx) => formatNumber(ctx.parsed)
+							label: (ctx) => {
+								const percentage =
+									(ctx.parsed * 100) / totalAffected;
+								return `${formatNumber(ctx.parsed)} (${percentage.toFixed(2)}%)`;
+							}
 						}
 					}
 				}
