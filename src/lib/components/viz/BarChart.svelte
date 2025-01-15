@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { isNumber } from "mathjs";
 	import * as d3 from "d3";
 
 	// Dataset
@@ -17,13 +18,17 @@
 		const impacts: Record<string, number[]> = {};
 
 		data.forEach((d) => {
-			const stockPriceBefore = parseFloat(d["Pre"]);
-			const stockPriceAfter = parseFloat(d["Post"]);
+			const stockPriceBefore = d.Pre
+				? parseFloat(d.Pre.toString())
+				: null;
+			const stockPriceAfter = d.Post
+				? parseFloat(d.Post.toString())
+				: null;
 			const types = d.Type;
 
 			if (
-				!isNaN(stockPriceBefore) &&
-				!isNaN(stockPriceAfter) &&
+				isNumber(stockPriceBefore) &&
+				isNumber(stockPriceAfter) &&
 				stockPriceBefore !== 0
 			) {
 				const percentageChange = calculatePercentageChange(

@@ -2,10 +2,12 @@
 	import { page } from "$app/stores";
 
 	// Components
+	import { ArrowRightIcon } from "lucide-svelte";
 	import Card from "$components/Card.svelte";
 	import Link from "$components/Link.svelte";
 	import StockPriceChangeKPI from "$components/viz/StockPriceChangeKPI.svelte";
 	import AffectedPeopleBC from "$components/viz/AffectedPeopleBarChart.svelte";
+	import StockPriceChangeComparison from "$components/viz/StockPriceChangeComparison.svelte";
 
 	// Dataset
 	import data from "$lib/data/breaches_symbols.json";
@@ -18,6 +20,11 @@
 
 	const { format: formatNumber } = new Intl.NumberFormat("en-US", {
 		notation: "compact"
+	});
+
+	const { format: formatCurrency } = new Intl.NumberFormat("en-US", {
+		style: "currency",
+		currency: "USD"
 	});
 
 	const parseDate = (date: string) => {
@@ -129,8 +136,13 @@
 							]}
 							>{stockChange > 0 ? "+" : ""}{formatNumber(
 								stockChange!
-							)}%</span
-						>
+							)}%
+							<span class="dark:text-silver-400"
+								>({formatCurrency(Number(breach.Pre))}
+								<ArrowRightIcon size="1em" class="inline" />
+								{formatCurrency(Number(breach.Post))})</span
+							>
+						</span>
 					{:else}
 						<span>Undeterminable due to incomplete data</span>
 					{/if}
@@ -147,49 +159,19 @@
 	<!-- Div 2 (Bar Chart) and Third Component in 50%-50% Split -->
 	<div class="flex flex-row gap-6">
 		<!-- Bar Chart -->
-		<Card class="flex-1">
-			<div>
-				<span class="text-sm font-bold uppercase dark:text-silver-400">
-					Affected People in Comparison
-				</span>
-				<AffectedPeopleBC breachID={Number(id)} />
-			</div>
+		<Card class="flex w-full flex-col justify-between gap-8">
+			<span class="text-sm font-bold uppercase dark:text-silver-400">
+				Affected People in Comparison
+			</span>
+			<AffectedPeopleBC breachID={Number(id)} />
 		</Card>
 
 		<!-- Third Component -->
-		<Card class="flex-1">
-			<div>
-				<span class="text-sm font-bold uppercase dark:text-silver-400">
-					Third Component
-				</span>
-				<!-- Add content here -->
-			</div>
+		<Card class="flex w-full flex-col justify-between gap-8">
+			<span class="text-sm font-bold uppercase dark:text-silver-400">
+				Stock Price Change Comparison
+			</span>
+			<StockPriceChangeComparison breachID={Number(id)} />
 		</Card>
 	</div>
 </div>
-
-<style>
-	.flex-col {
-		display: flex;
-		flex-direction: column;
-	}
-
-	.flex-row {
-		display: flex;
-		flex-direction: row;
-	}
-
-	.gap-6 {
-		gap: 1.5rem; /* Spacing between rows and columns */
-	}
-
-	.text-2xl {
-		font-size: 1.5rem;
-		line-height: 2rem;
-	}
-
-	.text-sm {
-		font-size: 0.875rem;
-		line-height: 1.25rem;
-	}
-</style>

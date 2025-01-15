@@ -39,6 +39,8 @@
 	const during = breach?.Pre !== null ? Number(breach?.During) : null;
 	const post = breach?.Pre !== null ? Number(breach?.Post) : null;
 
+	let theme = $state(document.documentElement.dataset.theme);
+
 	onMount(() => {
 		if (!breach || !pre || !during || !post) {
 			return;
@@ -62,9 +64,9 @@
 			type: "line",
 			data: {
 				labels: [
-					formatDate(before),
-					formatDate(breachDate),
-					formatDate(after)
+					`${formatDate(before)} (Before)`,
+					`${formatDate(breachDate)} (During)`,
+					`${formatDate(after)} (After)`
 				],
 				datasets: [
 					{
@@ -85,7 +87,18 @@
 				scales: {
 					x: {
 						grid: {
-							color: "rgba(255, 255, 255, 0.25)"
+							color: (ctx) => {
+								if (theme === "light") {
+									return ctx.tick.value === 1
+										? "rgba(0, 0, 0, 0.5)"
+										: "rgba(0, 0, 0, 0.25)";
+								}
+
+								return ctx.tick.value === 1
+									? "rgba(255, 255, 255, 0.5)"
+									: "rgba(255, 255, 255, 0.25)";
+							},
+							lineWidth: (ctx) => (ctx.tick.value === 1 ? 2 : 1)
 						}
 					},
 					y: {
@@ -97,7 +110,10 @@
 						suggestedMin: 0,
 						suggestedMax: Math.round(Math.max(...prices)) + 10,
 						grid: {
-							color: "rgba(255, 255, 255, 0.25)"
+							color:
+								theme === "dark"
+									? "rgba(255, 255, 255, 0.25)"
+									: "rgba(0, 0, 0, 0.25)"
 						}
 					}
 				}

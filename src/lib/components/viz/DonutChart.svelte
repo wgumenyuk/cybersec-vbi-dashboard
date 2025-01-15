@@ -39,6 +39,8 @@
 		notation: "compact"
 	});
 
+	let theme = $state(document.documentElement.dataset.theme);
+
 	let canvas: HTMLCanvasElement;
 
 	onMount(() => {
@@ -61,7 +63,10 @@
 					legend: {
 						position: "bottom",
 						labels: {
-							color: "#ffffff"
+							color:
+								theme === "dark"
+									? "rgba(255, 255, 255, 0.5)"
+									: "rgba(0, 0, 0, 0.5)"
 						}
 					},
 					tooltip: {

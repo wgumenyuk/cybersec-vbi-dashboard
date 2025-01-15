@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { onMount } from "svelte";
 	import { Chart } from "chart.js/auto";
-	import { mean } from "mathjs";
+	import { isNumber, mean } from "mathjs";
 
 	// Dataset
 	import data from "$lib/data/breaches_symbols.json";
@@ -12,21 +12,25 @@
 		breachID: number;
 	} = $props();
 
-	// Helper function for formatting numbers
-	const { format: formatNumber } = new Intl.NumberFormat("en-US", {
-		notation: "compact"
-	});
+	function calculatePercentageChange(pre: number, post: number): number {
+		if (!isNumber(pre) || !isNumber(post) || pre === 0) {
+			return 0;
+		}
 
-	// Helper function to calculate the median
-	function calculateMeanAffected(
+		return ((post - pre) / pre) * 100;
+	}
+
+	function calculateMeanChange(
 		filterFn: (entry: (typeof data)[0]) => boolean
-	) {
+	): number {
 		const filteredData = data
 			.filter(filterFn)
 			.map((entry) =>
-				typeof entry.Affected === "number" ? entry.Affected : 0
+				entry.Pre && entry.Post
+					? calculatePercentageChange(entry.Pre, entry.Post)
+					: 0
 			)
-			.filter((value) => value > 0);
+			.filter((value) => !isNaN(value));
 
 		if (!filteredData.length) return 0;
 
@@ -35,7 +39,7 @@
 		return mean(sorted);
 	}
 
-	type Bar = {
+	type StockChange = {
 		label: string;
 		value: number;
 	};
@@ -43,7 +47,7 @@
 	let canvas: HTMLCanvasElement;
 
 	let theme = $state(document.documentElement.dataset.theme);
-	let barData = $state<Bar[]>([]);
+	let stockChangeData = $state<StockChange[]>([]);
 
 	onMount(() => {
 		const breach = data.find((breach) => breach.ID === breachID);
@@ -52,21 +56,25 @@
 			return;
 		}
 
-		// Compute data for the bar chart
-		barData = [
+		stockChangeData = [
 			{
 				label: "Specific Case",
-				value: typeof breach.Affected === "number" ? breach.Affected : 0
+				value:
+					breach.Pre && breach.Post
+						? calculatePercentageChange(breach.Pre, breach.Post)
+						: 0
 			},
 			{
 				label: "Breach Type Mean",
-				value: calculateMeanAffected((entry: typeof breach) =>
-					entry.Type.some((type) => breach.Type.includes(type))
+				value: calculateMeanChange((entry) =>
+					entry.Type.some((type: string) =>
+						breach.Type.includes(type)
+					)
 				)
 			},
 			{
 				label: "Industry Mean",
-				value: calculateMeanAffected(
+				value: calculateMeanChange(
 					(entry) => entry.Industry === breach.Industry
 				)
 			}
@@ -75,11 +83,11 @@
 		new Chart(canvas, {
 			type: "bar",
 			data: {
-				labels: barData.map((d) => d.label),
+				labels: stockChangeData.map((d) => d.label),
 				datasets: [
 					{
 						label: "Comparison",
-						data: barData.map((d) => d.value),
+						data: stockChangeData.map((d) => d.value),
 						backgroundColor: ["#36a2eb", "#ff6384", "#ff9f40"]
 					}
 				]
@@ -92,20 +100,28 @@
 					tooltip: {
 						callbacks: {
 							label: (ctx) =>
-								`${ctx.label}: ${formatNumber(ctx.parsed.y)}`
+								`${ctx.label}: ${ctx.parsed.y.toFixed(2)}%`
 						}
 					}
 				},
 				scales: {
 					y: {
-						grid: {
-							color:
-								theme === "dark"
-									? "rgba(255, 255, 255, 0.25)"
-									: "rgba(0, 0, 0, 0.25)"
-						},
 						ticks: {
-							callback: (value) => formatNumber(value as number)
+							callback: (value) => `${value}%`
+						},
+						grid: {
+							color: (ctx) => {
+								if (theme === "light") {
+									return ctx.tick.value === 0
+										? "rgba(0, 0, 0, 0.5)"
+										: "rgba(0, 0, 0, 0.25)";
+								}
+
+								return ctx.tick.value === 0
+									? "rgba(255, 255, 255, 0.5)"
+									: "rgba(255, 255, 255, 0.25)";
+							},
+							lineWidth: (ctx) => (ctx.tick.value === 0 ? 2 : 1)
 						}
 					}
 				}

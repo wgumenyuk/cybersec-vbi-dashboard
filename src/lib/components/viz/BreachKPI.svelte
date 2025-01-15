@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { median } from "mathjs";
+	import { isNumber, median } from "mathjs";
 
 	// Components
 	import Card from "$components/Card.svelte";
@@ -38,12 +38,16 @@
 		let company = "";
 
 		data.forEach((d) => {
-			const stockPriceBefore = parseFloat(d["Pre"]);
-			const stockPriceAfter = parseFloat(d["Post"]);
+			const stockPriceBefore = d.Pre
+				? parseFloat(d.Pre.toString())
+				: null;
+			const stockPriceAfter = d.Post
+				? parseFloat(d.Post.toString())
+				: null;
 
 			if (
-				!isNaN(stockPriceBefore) &&
-				!isNaN(stockPriceAfter) &&
+				isNumber(stockPriceBefore) &&
+				isNumber(stockPriceAfter) &&
 				stockPriceBefore !== 0
 			) {
 				const percentageChange = calculatePercentageChange(
@@ -80,13 +84,17 @@
 		const percentageChanges = data
 			.map((d) => {
 				// Parse stock prices
-				const stockPriceBefore = parseFloat(d["Pre"]);
-				const stockPriceAfter = parseFloat(d["Post"]);
+				const stockPriceBefore = d.Pre
+					? parseFloat(d.Pre.toString())
+					: null;
+				const stockPriceAfter = d.Post
+					? parseFloat(d.Post.toString())
+					: null;
 
 				// Check if both values are valid numbers
 				if (
-					!isNaN(stockPriceBefore) &&
-					!isNaN(stockPriceAfter) &&
+					isNumber(stockPriceBefore) &&
+					isNumber(stockPriceAfter) &&
 					stockPriceBefore !== 0
 				) {
 					return calculatePercentageChange(
