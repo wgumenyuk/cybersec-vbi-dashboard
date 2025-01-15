@@ -6,6 +6,6 @@
 	let { children } = $props();
 </script>
 
-<div class="mx-auto flex h-screen max-w-[1920px] flex-col gap-8 p-8">
+<div class="mx-auto flex min-h-screen max-w-[1920px] flex-col gap-8 p-8">
 	{@render children()}
 </div>
