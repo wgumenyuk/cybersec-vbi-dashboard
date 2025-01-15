@@ -18,7 +18,7 @@
 	});
 
 	// Helper function to calculate the median
-	function calculateMedianAffected(
+	function calculateMeanAffected(
 		filterFn: (entry: (typeof data)[0]) => boolean
 	) {
 		const filteredData = data
@@ -59,14 +59,14 @@
 				value: typeof breach.Affected === "number" ? breach.Affected : 0
 			},
 			{
-				label: "Breach Type Median",
-				value: calculateMedianAffected((entry: typeof breach) =>
+				label: "Breach Type Mean",
+				value: calculateMeanAffected((entry: typeof breach) =>
 					entry.Type.some((type) => breach.Type.includes(type))
 				)
 			},
 			{
-				label: "Industry Median",
-				value: calculateMedianAffected(
+				label: "Industry Mean",
+				value: calculateMeanAffected(
 					(entry) => entry.Industry === breach.Industry
 				)
 			}
@@ -88,6 +88,12 @@
 				plugins: {
 					legend: {
 						display: false
+					},
+					tooltip: {
+						callbacks: {
+							label: (ctx) =>
+								`${ctx.label}: ${formatNumber(ctx.parsed.y)}`
+						}
 					}
 				},
 				scales: {
