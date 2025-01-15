@@ -1,48 +1,21 @@
 <script lang="ts">
-	import { isNumber } from "mathjs";
 	import * as d3 from "d3";
 
 	// Dataset
 	import data from "$lib/data/breaches_symbols.json";
-
-	// Helper function to calculate percentage change
-	const calculatePercentageChange = (
-		before: number,
-		after: number
-	): number => {
-		return ((after - before) / before) * 100;
-	};
 
 	// Calculate average stock price impact by breach type
 	const impactData = (() => {
 		const impacts: Record<string, number[]> = {};
 
 		data.forEach((d) => {
-			const stockPriceBefore = d.Pre
-				? parseFloat(d.Pre.toString())
-				: null;
-			const stockPriceAfter = d.Post
-				? parseFloat(d.Post.toString())
-				: null;
-			const types = d.Type;
-
-			if (
-				isNumber(stockPriceBefore) &&
-				isNumber(stockPriceAfter) &&
-				stockPriceBefore !== 0
-			) {
-				const percentageChange = calculatePercentageChange(
-					stockPriceBefore,
-					stockPriceAfter
-				);
-
-				// Ensure `types` is valid and iterate over it
-				if (Array.isArray(types)) {
-					types.forEach((type) => {
+			if (d["Stock Change"]) {
+				if (Array.isArray(d.Type)) {
+					d.Type.forEach((type) => {
 						if (type) {
 							// Ensure type is defined and non-empty
 							if (!impacts[type]) impacts[type] = [];
-							impacts[type].push(percentageChange);
+							impacts[type].push(d["Stock Change"]);
 						}
 					});
 				}

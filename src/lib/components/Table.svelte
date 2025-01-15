@@ -30,8 +30,8 @@
 		sortDirection: SortDirection
 	): number => {
 		if (a === b) return 0;
-		if (a === "Unknown") return 1;
-		if (b === "Unknown") return -1;
+		if (a === "Unknown" || a === null) return 1;
+		if (b === "Unknown" || b === null) return -1;
 
 		const dateA = parseDate(a);
 		const dateB = parseDate(b);
@@ -72,11 +72,9 @@
 
 	let sortedRows = $derived.by(() => {
 		if (!sortColumn) return rows;
-		return rows
-			.slice()
-			.sort((a, b) =>
-				compare(a[sortColumn], b[sortColumn], sortDirection)
-			);
+		return rows.toSorted((a, b) =>
+			compare(a[sortColumn], b[sortColumn], sortDirection)
+		);
 	});
 </script>
 

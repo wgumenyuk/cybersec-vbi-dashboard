@@ -1,5 +1,10 @@
 <script lang="ts">
-	import { SearchIcon, XIcon } from "lucide-svelte";
+	import {
+		ArrowDownIcon,
+		ArrowUpIcon,
+		SearchIcon,
+		XIcon
+	} from "lucide-svelte";
 	import Title from "$components/Title.svelte";
 	import Nav from "$components/Nav.svelte";
 	import Breadcrumbs from "$components/Breadcrumbs.svelte";
@@ -48,20 +53,41 @@
 </script>
 
 {#snippet row(item: (typeof dataset)[0])}
+	{@const { ID, Company, Symbol, Industry, Date, Type, Affected } = item}
+	{@const StockChange = item["Stock Change"]}
 	<span class="block w-full">
-		<Link href={`/breach/${item.ID}`}>{item.Company}</Link>
+		<Link href={`/breach/${ID}`}>{Company}</Link>
 	</span>
 	<span class="block w-full">
-		<Link href={`/breach/${item.ID}`}>{item.Symbol}</Link>
+		<Link href={`/breach/${ID}`}>{Symbol}</Link>
 	</span>
-	<span class="block w-full">{item.Industry}</span>
-	<span class="block w-full">{item.Date}</span>
-	<span class="block w-full">{item.Type.join(", ")}</span>
+	<span class="block w-full">{Industry}</span>
+	<span class="block w-full">{Date}</span>
+	<span class="block w-full">{Type.join(", ")}</span>
 	<span class="block w-full">
-		{typeof item.Affected === "number"
-			? formatNumber(item.Affected)
-			: item.Affected}
+		{typeof Affected === "number" ? formatNumber(Affected) : Affected}
 	</span>
+	{#if StockChange}
+		<span
+			class={[
+				"flex",
+				"items-center",
+				"gap-1.5",
+				"w-full",
+				StockChange < 0 && "text-rose-600 dark:text-rose-400",
+				StockChange > 0 && "text-emerald-600 dark:text-emerald-400"
+			]}
+		>
+			{#if StockChange < 0}
+				<ArrowDownIcon size="1em" />
+			{:else if StockChange > 0}
+				<ArrowUpIcon size="1em" />
+			{/if}
+			{(StockChange > 0 ? "+" : "") + StockChange.toFixed(2)}%
+		</span>
+	{:else}
+		<span class="block w-full">Unknown</span>
+	{/if}
 {/snippet}
 
 <Title value="Breach Analysis" />
@@ -122,7 +148,8 @@
 					"Industry",
 					"Date",
 					"Type",
-					"Affected"
+					"Affected",
+					"Stock Change"
 				]}
 				rows={filteredData}
 				{row}

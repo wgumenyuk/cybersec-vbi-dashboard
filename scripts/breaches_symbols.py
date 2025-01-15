@@ -30,6 +30,11 @@ with open(csv_file_path) as csv_file:
 				item[key] = float(row[key].replace(",", "."))
 			except ValueError:
 				item[key] = None
+
+		if item["Pre"] and item["Post"]:
+			item["Stock Change"] = ((item["Post"] - item["Pre"]) / item["Pre"]) * 100
+		else:
+			item["Stock Change"] = None
 			
 		rows.append(item)
 

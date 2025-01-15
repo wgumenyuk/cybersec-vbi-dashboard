@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { onMount } from "svelte";
 	import { Chart } from "chart.js/auto";
-	import { isNumber, mean } from "mathjs";
+	import { mean } from "mathjs";
 
 	// Dataset
 	import data from "$lib/data/breaches_symbols.json";
@@ -12,24 +12,12 @@
 		breachID: number;
 	} = $props();
 
-	function calculatePercentageChange(pre: number, post: number): number {
-		if (!isNumber(pre) || !isNumber(post) || pre === 0) {
-			return 0;
-		}
-
-		return ((post - pre) / pre) * 100;
-	}
-
 	function calculateMeanChange(
 		filterFn: (entry: (typeof data)[0]) => boolean
 	): number {
 		const filteredData = data
 			.filter(filterFn)
-			.map((entry) =>
-				entry.Pre && entry.Post
-					? calculatePercentageChange(entry.Pre, entry.Post)
-					: 0
-			)
+			.map((entry) => entry["Stock Change"] || 0)
 			.filter((value) => !isNaN(value));
 
 		if (!filteredData.length) return 0;
@@ -59,10 +47,7 @@
 		stockChangeData = [
 			{
 				label: "Specific Case",
-				value:
-					breach.Pre && breach.Post
-						? calculatePercentageChange(breach.Pre, breach.Post)
-						: 0
+				value: breach["Stock Change"] || 0
 			},
 			{
 				label: "Breach Type Mean",
