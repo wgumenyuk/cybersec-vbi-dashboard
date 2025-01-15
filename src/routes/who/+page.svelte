@@ -1,6 +1,11 @@
 <script lang="ts">
 	import { onMount } from "svelte";
 
+	// Components
+	import Nav from "$components/Nav.svelte";
+	import Breadcrumbs from "$components/Breadcrumbs.svelte";
+	import Card from "$components/Card.svelte";
+
 	// Import the HTML files
 	import MapHtmlAttackers from "$lib/map/cybersecurity_map.html?raw";
 	import MapHtmlAttacked from "$lib/map/destination_countries_map_vulnerability.html?raw";
@@ -19,13 +24,35 @@
 	}
 </script>
 
-<div class="container">
-	<!-- Heading -->
-	<div class="heading">Who?</div>
+<Nav title="Attackers and Defenders" next="/how">
+	<Breadcrumbs
+		nodes={[
+			{
+				label: "Dashboard",
+				href: "/"
+			},
+			{
+				label: "Attackers and Defenders",
+				href: "/who"
+			}
+		]}
+	/>
+</Nav>
+
+<div class="flex gap-8">
+	<!-- KPIs -->
+	<div class="flex flex-col gap-8">
+		<Card class="min-w-64 grow">…</Card>
+		<Card class="min-w-64 grow">…</Card>
+		<Card class="min-w-64 grow">…</Card>
+		<Card class="min-w-64 grow">…</Card>
+	</div>
 
 	<!-- First Map: Aggressive Countries -->
-	<div class="card">
-		<div class="card-title">Aggressive Countries (Attackers Map)</div>
+	<Card class="flex grow flex-col gap-4">
+		<span class="dark:text-silver-400"
+			>Aggressive Countries (Attackers Map)</span
+		>
 		<div class="gradient-border gradient-attackers">
 			<div class="iframe-container">
 				<iframe
@@ -34,67 +61,21 @@
 				></iframe>
 			</div>
 		</div>
-	</div>
-
-	<!-- Second Map: Affected Countries -->
-	<div class="card">
-		<div class="card-title">Affected Countries (Attacked Map)</div>
-		<div class="gradient-border gradient-attacked">
-			<div class="iframe-container">
-				<iframe title="Hit by attack countries" srcdoc={MapHtmlAttacked}
-				></iframe>
-			</div>
-		</div>
-	</div>
+	</Card>
 </div>
 
+<!-- Second Map: Affected Countries -->
+<Card class="flex flex-col gap-4">
+	<span class="dark:text-silver-400">Affected Countries (Attacked Map)</span>
+	<div class="gradient-border gradient-attacked">
+		<div class="iframe-container">
+			<iframe title="Hit by attack countries" srcdoc={MapHtmlAttacked}
+			></iframe>
+		</div>
+	</div>
+</Card>
+
 <style>
-	/* Overall page container */
-	.container {
-		padding: 16px;
-		background-color: #f9f9f9;
-		border-radius: 8px;
-		box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-	}
-
-	/* "Who?" heading */
-	.heading {
-		font-size: 2rem;
-		font-weight: bold;
-		color: #333;
-		text-align: left;
-		margin-bottom: 24px;
-		position: relative;
-	}
-
-	.heading::after {
-		content: "";
-		display: block;
-		width: 50px;
-		height: 4px;
-		background-color: #333;
-		border-radius: 2px;
-		margin-top: 8px;
-	}
-
-	/* Card design */
-	.card {
-		background-color: white;
-		border-radius: 12px;
-		box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-		padding: 16px;
-		overflow: hidden;
-		margin-bottom: 24px;
-		position: relative;
-	}
-
-	.card-title {
-		font-size: 1.25rem;
-		font-weight: bold;
-		margin-bottom: 8px;
-		color: #333;
-	}
-
 	/* Gradient border wrapper */
 	.gradient-border {
 		padding: 4px;

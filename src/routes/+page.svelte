@@ -1,35 +1,32 @@
 <script lang="ts">
-	import Title from "$components/Title.svelte";
 	import { LandPlotIcon, TrendingUpDownIcon, UsersIcon } from "lucide-svelte";
+	import Title from "$components/Title.svelte";
 
 	// Types
-	import type { Component } from "svelte";
+	import type { Icon as LucideIcon } from "lucide-svelte";
 
 	type Link = {
 		href: string;
-		icon: Component;
+		icon: typeof LucideIcon;
 		title: string;
 		description: string;
 	};
 
 	const links: Link[] = [
 		{
-			href: "/",
-			// @ts-expect-error: `TrendingUpDownIcon` hat einen falschen Typ.
+			href: "/who",
 			icon: UsersIcon,
 			title: "Who?",
 			description: "A Look at Attackers and Targets of Cyber Attacks"
 		},
 		{
 			href: "/",
-			// @ts-expect-error: `TrendingUpDownIcon` hat einen falschen Typ.
 			icon: LandPlotIcon,
 			title: "How?",
 			description: "Exploring Methods and Technical Targets of Attacks"
 		},
 		{
 			href: "/what",
-			// @ts-expect-error: `TrendingUpDownIcon` hat einen falschen Typ.
 			icon: TrendingUpDownIcon,
 			title: "What?",
 			description:
@@ -38,7 +35,7 @@
 	];
 </script>
 
-{#snippet link({ href, icon, title, description }: Link)}
+{#snippet link({ href, icon: Icon, title, description }: Link)}
 	<a
 		{href}
 		class="
@@ -58,11 +55,7 @@
 		hover:dark:bg-silver-800/50
 	"
 	>
-		<svelte:component
-			this={icon}
-			size="64px"
-			class="dark:text-silver-400"
-		/>
+		<Icon size="64px" class="dark:text-silver-400" />
 		<div class="flex flex-col items-center gap-4 text-center">
 			<span class="text-2xl font-bold">{title}</span>
 			<span class="text-lg dark:text-silver-400">{description}</span>
