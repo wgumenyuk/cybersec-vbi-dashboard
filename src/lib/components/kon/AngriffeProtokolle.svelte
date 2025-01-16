@@ -9,40 +9,32 @@
 				datasets: [
 					{
 						label: "HTTP",
-						data: [{ x: 1, y: 100, r: 15 }],
-						backgroundColor: "rgba(54, 162, 235, 0.8)"
+						data: [{ x: 1, y: 100, r: 15 }]
 					},
 					{
 						label: "DNS",
-						data: [{ x: 2, y: 150, r: 20 }],
-						backgroundColor: "rgba(255, 99, 132, 0.8)"
+						data: [{ x: 2, y: 150, r: 20 }]
 					},
 					{
 						label: "FTP",
-						data: [{ x: 3, y: 50, r: 10 }],
-						backgroundColor: "rgba(75, 192, 192, 0.8)"
+						data: [{ x: 3, y: 50, r: 10 }]
 					}
 				]
 			},
 			options: {
-				plugins: {
-					title: {
-						display: true,
-						text: "Wie nutzen Angriffe verschiedene Protokolle?"
-					}
-				},
 				scales: {
 					x: {
 						title: {
 							display: true,
-							text: "Protokoll-Komplexität (Skala)"
+							text: "Protocol Complexity"
 						}
 					},
 					y: {
 						title: {
 							display: true,
-							text: "Anzahl der Angriffe"
-						}
+							text: "# of Attacks"
+						},
+						suggestedMin: 0
 					}
 				}
 			}

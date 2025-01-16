@@ -20,7 +20,7 @@
 			description: "A Look at Attackers and Targets of Cyber Attacks"
 		},
 		{
-			href: "/",
+			href: "/how",
 			icon: LandPlotIcon,
 			title: "How?",
 			description: "Exploring Methods and Technical Targets of Attacks"

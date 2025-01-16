@@ -12,47 +12,33 @@
 				datasets: [
 					{
 						label: "Malware",
-						data: [50, 70, 0, 0, 0], // Häufigkeiten pro Jahr
-						backgroundColor: "rgba(54, 162, 235, 0.8)"
+						data: [50, 70, 0, 0, 0] // Häufigkeiten pro Jahr
 					},
 					{
 						label: "Phishing",
-						data: [0, 0, 40, 0, 0],
-						backgroundColor: "rgba(255, 99, 132, 0.8)"
+						data: [0, 0, 40, 0, 0]
 					},
 					{
 						label: "DDoS",
-						data: [0, 0, 0, 30, 0],
-						backgroundColor: "rgba(75, 192, 192, 0.8)"
+						data: [0, 0, 0, 30, 0]
 					},
 					{
 						label: "Ransomware",
-						data: [0, 0, 0, 0, 20],
-						backgroundColor: "rgba(153, 102, 255, 0.8)"
+						data: [0, 0, 0, 0, 20]
 					}
 				]
 			},
 			options: {
-				plugins: {
-					title: {
-						display: true,
-						text: "Wie variieren Angriffsmethoden über die Zeit?"
-					}
-				},
 				responsive: true,
 				scales: {
 					x: {
-						stacked: true, // Gestapelte Balken
-						title: {
-							display: true,
-							text: "Jahr"
-						}
+						stacked: true
 					},
 					y: {
-						stacked: true, // Gestapelte Balken
+						stacked: true,
 						title: {
 							display: true,
-							text: "Häufigkeit"
+							text: "# of Attacks"
 						}
 					}
 				}

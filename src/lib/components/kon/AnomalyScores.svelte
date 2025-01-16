@@ -17,19 +17,14 @@
 					{
 						label: "Anomalie-Scores",
 						data: [4.5, 3.8, 4.2, 3.6, 4.1],
-						backgroundColor: "rgba(54, 162, 235, 0.2)",
-						borderColor: "rgba(54, 162, 235, 1.0)",
-						borderWidth: 2,
-						pointBackgroundColor: "rgba(54, 162, 235, 1.0)",
 						pointRadius: 5
 					}
 				]
 			},
 			options: {
 				plugins: {
-					title: {
-						display: true,
-						text: "Anomalie-Scores nach Angriffstyp (Radar Chart)"
+					legend: {
+						display: false
 					},
 					tooltip: {
 						callbacks: {
