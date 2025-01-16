@@ -1,0 +1,55 @@
+<script lang="ts">
+	import { Chart } from "chart.js/auto";
+	import { onMount } from "svelte";
+
+	onMount(() => {
+		new Chart("affectedSectorsChart", {
+			type: "bar",
+			data: {
+				labels: [
+					"Finance",
+					"Healthcare",
+					"Retail",
+					"Education",
+					"Government"
+				],
+				datasets: [
+					{
+						label: "Malware",
+						data: [50, 70, 30, 20, 40],
+						backgroundColor: "rgba(54, 162, 235, 0.8)"
+					},
+					{
+						label: "Phishing",
+						data: [60, 50, 40, 30, 50],
+						backgroundColor: "rgba(255, 99, 132, 0.8)"
+					},
+					{
+						label: "DDoS",
+						data: [30, 20, 10, 10, 25],
+						backgroundColor: "rgba(75, 192, 192, 0.8)"
+					}
+				]
+			},
+			options: {
+				plugins: {
+					title: {
+						display: true,
+						text: "Wie sind Branchen von Angriffstypen betroffen?"
+					}
+				},
+				responsive: true,
+				scales: {
+					x: {
+						stacked: true
+					},
+					y: {
+						stacked: true
+					}
+				}
+			}
+		});
+	});
+</script>
+
+<canvas id="affectedSectorsChart"></canvas>
