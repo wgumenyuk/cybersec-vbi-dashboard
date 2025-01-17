@@ -43,20 +43,11 @@
 			class:active={activeTab === "AnomalyScores"}
 			onclick={() => (activeTab = "AnomalyScores")}>Anomaly Scores</button
 		>
-		<button
-			class:active={activeTab === "AngriffeProtokolle"}
-			onclick={() => (activeTab = "AngriffeProtokolle")}
-			>Angriffe Protokolle</button
-		>
+	
 		<button
 			class:active={activeTab === "AngriffsmethodenZeit"}
 			onclick={() => (activeTab = "AngriffsmethodenZeit")}
 			>Angriffe Zeit</button
-		>
-		<button
-			class:active={activeTab === "AngriffsmethodenBranchen"}
-			onclick={() => (activeTab = "AngriffsmethodenBranchen")}
-			>Angriffe Branchen</button
 		>
 	</div>
 
@@ -88,9 +79,7 @@
 		{#if activeTab === "AngriffsmethodenZeit"}
 			<AngriffsmethodenZeit />
 		{/if}
-		{#if activeTab === "AngriffsmethodenBranchen"}
-			<AngriffsmethodenBranchen />
-		{/if}
+		
 	</div>
 </div>
 

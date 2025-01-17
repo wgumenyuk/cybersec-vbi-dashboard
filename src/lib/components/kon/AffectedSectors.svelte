@@ -14,22 +14,23 @@
 					"Government"
 				],
 				datasets: [
-					{
-						label: "Malware",
-						data: [50, 70, 30, 20, 40],
-						backgroundColor: "rgba(54, 162, 235, 0.8)"
-					},
-					{
-						label: "Phishing",
-						data: [60, 50, 40, 30, 50],
-						backgroundColor: "rgba(255, 99, 132, 0.8)"
-					},
-					{
-						label: "DDoS",
-						data: [30, 20, 10, 10, 25],
-						backgroundColor: "rgba(75, 192, 192, 0.8)"
-					}
-				]
+    {
+        label: "Malware",
+        data: [14.3, 15.2, 13.8, 14.5, 15.0, 14.7, 15.1, 14.9],
+        backgroundColor: "rgba(54, 162, 235, 0.8)"
+    },
+    {
+        label: "Phishing",
+        data: [12.4, 12.0, 12.7, 12.3, 12.5, 12.8, 12.6, 12.2],
+        backgroundColor: "rgba(255, 99, 132, 0.8)"
+    },
+    {
+        label: "DDoS",
+        data: [8.5, 8.3, 8.2, 8.4, 8.1, 8.3, 8.2, 8.0],
+        backgroundColor: "rgba(75, 192, 192, 0.8)"
+    }
+]
+
 			},
 			options: {
 				plugins: {
