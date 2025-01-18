@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { theme } from "$lib/theme.svelte";
 	import { Chart } from "chart.js/auto";
 	import { onMount } from "svelte";
 
@@ -33,12 +34,8 @@
 			},
 			options: {
 				plugins: {
-					title: {
-						display: true,
-						text: "Angriffe nach Typ"
-					},
 					legend: {
-						display: true
+						display: false
 					}
 				},
 				indexAxis: "y",
@@ -46,13 +43,13 @@
 					x: {
 						title: {
 							display: true,
-							text: "Anzahl der Angriffe"
-						}
-					},
-					y: {
-						title: {
-							display: true,
-							text: "Angriffsarten"
+							text: "# of Attacks"
+						},
+						grid: {
+							color:
+								theme === "dark"
+									? "rgba(255, 255, 255, 0.25)"
+									: "rgba(0, 0, 0, 0.25)"
 						}
 					}
 				}

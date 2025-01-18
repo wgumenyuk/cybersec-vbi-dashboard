@@ -1,9 +1,12 @@
 <script lang="ts">
 	import { Chart } from "chart.js/auto";
 	import { onMount } from "svelte";
+	import { theme } from "$lib/theme.svelte";
+
+	let canvas: HTMLCanvasElement;
 
 	onMount(() => {
-		new Chart("anomalyScoresChart", {
+		new Chart(canvas, {
 			type: "radar",
 			data: {
 				labels: [
@@ -15,7 +18,6 @@
 				],
 				datasets: [
 					{
-						label: "Anomalie-Scores",
 						data: [50.13, 50.24, 49.98, 0, 0],
 						pointRadius: 5,
 						backgroundColor: "rgba(54, 162, 235, 0.2)",
@@ -25,13 +27,8 @@
 			},
 			options: {
 				plugins: {
-					title: {
-						display: true,
-						text: "Anomalie-Scores nach Angriffstyp"
-					},
 					legend: {
-						display: true,
-						position: "top"
+						display: false
 					}
 				},
 				scales: {
@@ -43,6 +40,12 @@
 						suggestedMax: 60,
 						ticks: {
 							stepSize: 10
+						},
+						grid: {
+							color:
+								theme === "dark"
+									? "rgba(255, 255, 255, 0.25)"
+									: "rgba(0, 0, 0, 0.25)"
 						}
 					}
 				}
@@ -51,4 +54,4 @@
 	});
 </script>
 
-<canvas id="anomalyScoresChart"></canvas>
+<canvas bind:this={canvas}></canvas>

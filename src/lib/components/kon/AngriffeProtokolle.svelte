@@ -1,9 +1,12 @@
 <script lang="ts">
 	import { Chart } from "chart.js/auto";
 	import { onMount } from "svelte";
+	import { theme } from "$lib/theme.svelte";
+
+	let canvas: HTMLCanvasElement;
 
 	onMount(() => {
-		new Chart("bubbleChart", {
+		new Chart(canvas, {
 			type: "bubble",
 			data: {
 				datasets: [
@@ -64,23 +67,29 @@
 				]
 			},
 			options: {
-				plugins: {
-					title: {
-						display: true,
-						text: "Angriffshäufigkeit nach Protokoll und Komplexität"
-					}
-				},
 				scales: {
 					x: {
 						title: {
 							display: true,
-							text: "Komplexität"
+							text: "Attack Complexity"
+						},
+						grid: {
+							color:
+								theme === "dark"
+									? "rgba(255, 255, 255, 0.25)"
+									: "rgba(0, 0, 0, 0.25)"
 						}
 					},
 					y: {
 						title: {
 							display: true,
-							text: "Anzahl der Häufigkeit"
+							text: "# of Attacks"
+						},
+						grid: {
+							color:
+								theme === "dark"
+									? "rgba(255, 255, 255, 0.25)"
+									: "rgba(0, 0, 0, 0.25)"
 						},
 						suggestedMin: 0,
 						suggestedMax: 8000
@@ -91,4 +100,4 @@
 	});
 </script>
 
-<canvas id="bubbleChart"></canvas>
+<canvas bind:this={canvas}></canvas>

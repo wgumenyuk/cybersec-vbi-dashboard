@@ -1,11 +1,14 @@
 <script lang="ts">
+	import { theme } from "$lib/theme.svelte";
 	import { Chart } from "chart.js/auto";
 	import { onMount } from "svelte";
 
 	//visualisierung kann ich löschen!!!
 
+	let canvas: HTMLCanvasElement;
+
 	onMount(() => {
-		new Chart("breachByYearChart", {
+		new Chart(canvas, {
 			type: "line",
 			data: {
 				labels: ["2018", "2019", "2020", "2021", "2022"],
@@ -43,12 +46,24 @@
 						title: {
 							display: true,
 							text: "Anzahl der Angriffe"
+						},
+						grid: {
+							color:
+								theme === "dark"
+									? "rgba(255, 255, 255, 0.25)"
+									: "rgba(0, 0, 0, 0.25)"
 						}
 					},
 					x: {
 						title: {
 							display: true,
 							text: "Jahre"
+						},
+						grid: {
+							color:
+								theme === "dark"
+									? "rgba(255, 255, 255, 0.25)"
+									: "rgba(0, 0, 0, 0.25)"
 						}
 					}
 				}
@@ -57,4 +72,4 @@
 	});
 </script>
 
-<canvas id="breachByYearChart"></canvas>
+<canvas bind:this={canvas}></canvas>

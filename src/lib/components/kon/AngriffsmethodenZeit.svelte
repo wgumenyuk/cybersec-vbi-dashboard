@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { theme } from "$lib/theme.svelte";
 	import { Chart } from "chart.js/auto";
 	import { onMount } from "svelte";
 
@@ -37,27 +38,20 @@
 				responsive: true,
 				scales: {
 					x: {
-						stacked: true,
-						title: {
-							display: true,
-							text: "Jahre"
-						}
+						stacked: true
 					},
 					y: {
 						stacked: true,
 						title: {
 							display: true,
-							text: "Anzahl der Angriffe"
+							text: "# of Attacks"
+						},
+						grid: {
+							color:
+								theme === "dark"
+									? "rgba(255, 255, 255, 0.25)"
+									: "rgba(0, 0, 0, 0.25)"
 						}
-					}
-				},
-				plugins: {
-					legend: {
-						position: "top"
-					},
-					title: {
-						display: true,
-						text: "Cybersecurity-Angriffe pro Jahr"
 					}
 				}
 			}

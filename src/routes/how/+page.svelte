@@ -31,25 +31,39 @@
 <div class="flex flex-col gap-8">
 	<div class="flex gap-8">
 		<Card class="w-full grow">
+			<span class="text-center dark:text-silver-400"
+				>Attack Types and Industries</span
+			>
 			<AttackIndustry />
 		</Card>
 		<Card class="w-full grow">
+			<span class="text-center dark:text-silver-400">Attack Types</span>
 			<AttackMethods />
 		</Card>
 	</div>
 	<div class="flex gap-8">
 		<Card class="w-full grow">
+			<span class="text-center dark:text-silver-400"
+				>Attacks Over Time</span
+			>
 			<AngriffsmethodenZeit />
 		</Card>
 		<Card class="w-full grow">
+			<span class="text-center dark:text-silver-400"
+				>Attacks Frequency by Protocols Used and Complexity</span
+			>
 			<AngriffeProtokolle />
 		</Card>
 	</div>
 	<div class="flex gap-8">
 		<Card class="w-full grow">
+			<span class="text-center dark:text-silver-400">Anomaly Scores</span>
 			<AnomalyScores />
 		</Card>
 		<Card class="w-full grow">
+			<span class="text-center dark:text-silver-400"
+				>Protocol Usage: Requests, Responses and Errors</span
+			>
 			<ProtocolUsage />
 		</Card>
 	</div>

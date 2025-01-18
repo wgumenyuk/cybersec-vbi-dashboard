@@ -5,8 +5,10 @@
 
 	Chart.register(SankeyController, Flow);
 
+	let canvas: HTMLCanvasElement;
+
 	onMount(() => {
-		new Chart("sankeyChart", {
+		new Chart(canvas, {
 			type: "sankey",
 			data: {
 				datasets: [
@@ -31,14 +33,10 @@
 			},
 			options: {
 				plugins: {
-					title: {
-						display: true,
-						text: "Cyberangriffe nach Typ und Zielsektor"
-					},
 					tooltip: {
 						callbacks: {
 							label: function (context) {
-								return `${context.raw.from} → ${context.raw.to}: ${context.raw.flow}`;
+								return `${context.parsed._custom.from.key} → ${context.parsed._custom.to.key}: ${context.parsed._custom.flow}`;
 							}
 						}
 					}
@@ -48,4 +46,4 @@
 	});
 </script>
 
-<canvas id="sankeyChart"></canvas>
+<canvas bind:this={canvas}></canvas>

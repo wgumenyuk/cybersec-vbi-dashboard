@@ -2,8 +2,10 @@
 	import { Chart } from "chart.js/auto";
 	import { onMount } from "svelte";
 
+	let canvas: HTMLCanvasElement;
+
 	onMount(() => {
-		new Chart("recordDistributionChart", {
+		new Chart(canvas, {
 			type: "doughnut",
 			data: {
 				labels: ["<1k", "1k-10k", "10k-50k", "50k-100k", ">100k"],
@@ -46,4 +48,4 @@
 	});
 </script>
 
-<canvas id="recordDistributionChart"></canvas>
+<canvas bind:this={canvas}></canvas>

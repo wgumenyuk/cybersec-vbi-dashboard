@@ -2,8 +2,10 @@
 	import { Chart } from "chart.js/auto";
 	import { onMount } from "svelte";
 
+	let canvas: HTMLCanvasElement;
+
 	onMount(() => {
-		new Chart("affectedSectorsChart", {
+		new Chart(canvas, {
 			type: "bar",
 			data: {
 				labels: [
@@ -71,4 +73,4 @@
 	});
 </script>
 
-<canvas id="affectedSectorsChart"></canvas>
+<canvas bind:this={canvas}></canvas>

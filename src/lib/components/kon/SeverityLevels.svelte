@@ -1,9 +1,11 @@
-<script>
+<script lang="ts">
 	import { Chart } from "chart.js/auto";
 	import { onMount } from "svelte";
 
+	let canvas: HTMLCanvasElement;
+
 	onMount(() => {
-		new Chart("severityLevelsChart", {
+		new Chart(canvas, {
 			type: "bar",
 			data: {
 				labels: ["Low", "Medium", "High"], // Schweregrade aus dem Dataset
@@ -71,4 +73,4 @@
 	});
 </script>
 
-<canvas id="severityLevelsChart"></canvas>
+<canvas bind:this={canvas}></canvas>
