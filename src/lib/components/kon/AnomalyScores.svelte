@@ -16,22 +16,22 @@
 				datasets: [
 					{
 						label: "Anomalie-Scores",
-						data: [4.5, 3.8, 4.2, 3.6, 4.1],
-						pointRadius: 5
+						data: [50.13, 50.24, 49.98, 0, 0],
+						pointRadius: 5,
+						backgroundColor: "rgba(54, 162, 235, 0.2)",
+						borderColor: "rgba(54, 162, 235, 1)"
 					}
 				]
 			},
 			options: {
 				plugins: {
-					legend: {
-						display: false
+					title: {
+						display: true,
+						text: "Anomalie-Scores nach Angriffstyp"
 					},
-					tooltip: {
-						callbacks: {
-							label: function (tooltipItem) {
-								return `${tooltipItem.label}: ${tooltipItem.raw}`;
-							}
-						}
+					legend: {
+						display: true,
+						position: "top"
 					}
 				},
 				scales: {
@@ -40,9 +40,9 @@
 							display: true
 						},
 						suggestedMin: 0,
-						suggestedMax: 5,
+						suggestedMax: 60,
 						ticks: {
-							stepSize: 1
+							stepSize: 10
 						}
 					}
 				}

@@ -4,11 +4,11 @@
 	import Breadcrumbs from "$components/Breadcrumbs.svelte";
 	import Card from "$components/Card.svelte";
 	import AttackIndustry from "$components/kon/AngriffsmethodenBranchen.svelte";
-	import AffectedSectors from "$components/kon/AffectedSectors.svelte";
 	import AttackMethods from "$components/kon/AttackMethods.svelte";
-	import BreachByYear from "$components/kon/BreachByYear.svelte";
-	import SeverityLevels from "$components/kon/SeverityLevels.svelte";
 	import AngriffsmethodenZeit from "$components/kon/AngriffsmethodenZeit.svelte";
+	import ProtocolUsage from "$components/kon/ProtocolUsage.svelte";
+	import AnomalyScores from "$components/kon/AnomalyScores.svelte";
+	import AngriffeProtokolle from "$components/kon/AngriffeProtokolle.svelte";
 </script>
 
 <Title value="Attack Method Analysis" />
@@ -34,7 +34,7 @@
 			<AttackIndustry />
 		</Card>
 		<Card class="w-full grow">
-			<AffectedSectors />
+			<AttackMethods />
 		</Card>
 	</div>
 	<div class="flex gap-8">
@@ -42,15 +42,15 @@
 			<AngriffsmethodenZeit />
 		</Card>
 		<Card class="w-full grow">
-			<BreachByYear />
+			<AngriffeProtokolle />
 		</Card>
 	</div>
 	<div class="flex gap-8">
 		<Card class="w-full grow">
-			<AttackMethods />
+			<AnomalyScores />
 		</Card>
 		<Card class="w-full grow">
-			<SeverityLevels />
+			<ProtocolUsage />
 		</Card>
 	</div>
 </div>
