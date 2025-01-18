@@ -18,7 +18,7 @@
 				],
 				datasets: [
 					{
-						data: [50.13, 50.24, 49.98, 0, 0],
+						data: [50.13, 50.24, 49.85, 47.92, 45.67],
 						pointRadius: 5,
 						backgroundColor: "rgba(54, 162, 235, 0.2)",
 						borderColor: "rgba(54, 162, 235, 1)"
