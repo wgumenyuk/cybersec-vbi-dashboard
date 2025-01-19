@@ -2,6 +2,8 @@
 
 Maßgefertigtes CyberSecurity-Dashboard für Visual Business Intelligence (WS 24/25).
 
+<img src="assets/preview.png" alt="Dashboard Preview"/>
+
 ## Installation
 
 ### Docker
