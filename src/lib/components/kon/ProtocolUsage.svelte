@@ -13,21 +13,21 @@
 				datasets: [
 					{
 						label: "Requests",
-						data: [150, 120, 100, 80, 60],
+						data: [5489, 4512, 6200, 3890, 3100],
 						backgroundColor: "rgba(54, 162, 235, 0.5)",
 						borderColor: "rgba(54, 162, 235, 1)",
 						borderWidth: 1
 					},
 					{
 						label: "Responses",
-						data: [130, 110, 90, 70, 50],
+						data: [5210, 4400, 5900, 3700, 2900],
 						backgroundColor: "rgba(75, 192, 192, 0.5)",
 						borderColor: "rgba(75, 192, 192, 1)",
 						borderWidth: 1
 					},
 					{
 						label: "Errors",
-						data: [20, 10, 10, 10, 10],
+						data: [300, 112, 300, 190, 200],
 						backgroundColor: "rgba(255, 99, 132, 0.5)",
 						borderColor: "rgba(255, 99, 132, 1)",
 						borderWidth: 1
@@ -49,7 +49,7 @@
 						stacked: true,
 						title: {
 							display: true,
-							text: "# of Interactions"
+							text: "Interactions"
 						},
 						grid: {
 							color:
