@@ -34,7 +34,11 @@
 				scales: {
 					r: {
 						angleLines: {
-							display: true
+							display: true,
+							color:
+								theme === "dark"
+									? "rgba(255, 255, 255, 0.25)"
+									: "rgba(0, 0, 0, 0.25)"
 						},
 						suggestedMin: 0,
 						suggestedMax: 60,
