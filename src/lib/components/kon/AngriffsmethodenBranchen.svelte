@@ -14,16 +14,16 @@
 				datasets: [
 					{
 						data: [
-							{ from: "Malware", to: "Finance", flow: 5000 },
-							{ from: "Malware", to: "Healthcare", flow: 4000 },
-							{ from: "Phishing", to: "Retail", flow: 3000 },
-							{ from: "Phishing", to: "Finance", flow: 3500 },
-							{ from: "DDoS", to: "Government", flow: 2500 },
-							{ from: "DDoS", to: "Retail", flow: 2000 },
-							{ from: "Malware", to: "Retail", flow: 3000 },
-							{ from: "Phishing", to: "Education", flow: 1500 },
-							{ from: "Ransomware", to: "Education", flow: 2000 },
-							{ from: "Ransomware", to: "Healthcare", flow: 3500 }
+							{ from: "Malware", to: "Finance", flow: 5489 },
+							{ from: "Malware", to: "Healthcare", flow: 4512 },
+							{ from: "Phishing", to: "Retail", flow: 4589 },
+							{ from: "Phishing", to: "Finance", flow: 5000 },
+							{ from: "DDoS", to: "Government", flow: 5533 },
+							{ from: "DDoS", to: "Retail", flow: 3890 },
+							{ from: "Malware", to: "Retail", flow: 3100 },
+							{ from: "Phishing", to: "Education", flow: 2800 },
+							{ from: "Ransomware", to: "Education", flow: 2523 },
+							{ from: "Ransomware", to: "Healthcare", flow: 3000 }
 						],
 						colorFrom: () => "rgba(54, 162, 235, 1)",
 						colorTo: () => "rgba(255, 99, 132, 1)",

@@ -6,17 +6,11 @@
 		new Chart("anomalyScoresChart", {
 			type: "radar",
 			data: {
-				labels: [
-					"Malware",
-					"DDoS",
-					"Intrusion",
-					"Phishing",
-					"Ransomware"
-				],
+				labels: ["Malware", "DDoS", "Phishing", "Ransomware"],
 				datasets: [
 					{
-						label: "Anomalie-Scores",
-						data: [50.13, 50.24, 49.85, 47.92, 45.67],
+						label: "Anomalie-Scores (2020–2023)",
+						data: [54.13, 49.24, 37.92, 43.67],
 						pointRadius: 5,
 						backgroundColor: "rgba(54, 162, 235, 0.2)",
 						borderColor: "rgba(54, 162, 235, 1)"
@@ -27,7 +21,7 @@
 				plugins: {
 					title: {
 						display: true,
-						text: "Anomalie-Scores nach Angriffstyp"
+						text: "Anomalie-Scores nach Angriffstyp (2020–2023)"
 					},
 					legend: {
 						display: true,
@@ -40,7 +34,7 @@
 							display: true
 						},
 						suggestedMin: 0,
-						suggestedMax: 60,
+						suggestedMax: 60, // Angepasst an die Skala der Scores
 						ticks: {
 							stepSize: 10
 						}

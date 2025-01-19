@@ -11,8 +11,8 @@
 				labels: ["Malware", "Phishing", "DDoS", "Ransomware"],
 				datasets: [
 					{
-						label: "Anzahl der Angriffe",
-						data: [5489, 4589, 5533, 2523],
+						label: "Gesamthäufigkeit der Angriffe (2020–2023)",
+						data: [19307, 18000, 19428, 7894],
 						backgroundColor: [
 							"rgba(255, 99, 132, 0.5)",
 							"rgba(54, 162, 235, 0.5)",
@@ -33,7 +33,7 @@
 				plugins: {
 					title: {
 						display: true,
-						text: "Angriffe nach Typ"
+						text: "Gesamthäufigkeit der Angriffe nach Typ (2020–2023)"
 					},
 					legend: {
 						display: true
@@ -44,7 +44,7 @@
 					x: {
 						title: {
 							display: true,
-							text: "Anzahl der Angriffe"
+							text: "Gesamthäufigkeit der Angriffe"
 						}
 					},
 					y: {
