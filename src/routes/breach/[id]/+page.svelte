@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { page } from "$app/stores";
+	import { page } from "$app/state";
 
 	// Components
 	import { ArrowRightIcon } from "lucide-svelte";
@@ -37,7 +37,7 @@
 		return "";
 	};
 
-	const { id } = $page.params;
+	const { id } = page.params;
 	const breach = data.find((b) => b.ID === Number(id));
 
 	const pre = breach?.Pre !== null ? Number(breach?.Pre) : null;
@@ -134,8 +134,8 @@
 								stockChange > 0 &&
 									"text-emerald-600 dark:text-emerald-400"
 							]}
-							>{stockChange > 0 ? "+" : ""}{formatNumber(
-								stockChange!
+							>{stockChange > 0 ? "+" : ""}{stockChange.toFixed(
+								2
 							)}%
 							<span class="dark:text-silver-400"
 								>({formatCurrency(Number(breach.Pre))}

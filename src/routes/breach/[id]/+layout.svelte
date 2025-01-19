@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { page } from "$app/stores";
+	import { page } from "$app/state";
 
 	// Components
 	import Breadcrumbs from "$components/Breadcrumbs.svelte";
@@ -7,7 +7,7 @@
 
 	let { children } = $props();
 
-	const { id } = $page.params;
+	const { id } = page.params;
 </script>
 
 <Nav title="Breach Details" previous="/what">
