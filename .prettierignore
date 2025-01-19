@@ -15,3 +15,11 @@ src/lib/map
 package-lock.json
 pnpm-lock.yaml
 yarn.lock
+
+# Ignore virtual environment and generated files
+.venv/
+**/site-packages/
+
+# Ignore specific Folium templates
+.venv/Lib/site-packages/folium/templates/
+.venv/Lib/site-packages/branca/templates/

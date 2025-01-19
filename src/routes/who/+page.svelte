@@ -1,27 +1,15 @@
 <script lang="ts">
-	import { onMount } from "svelte";
-
 	// Components
 	import Nav from "$components/Nav.svelte";
 	import Breadcrumbs from "$components/Breadcrumbs.svelte";
 	import Card from "$components/Card.svelte";
 
 	// Import the HTML files
-	import MapHtmlAttackers from "$lib/map/cybersecurity_map.html?raw";
-	import MapHtmlAttacked from "$lib/map/destination_countries_map_vulnerability.html?raw";
+	import MapHtmlAttackers from "$lib/map/attacker_heatmap.html?raw";
+	import MapHtmlAttacked from "$lib/map/attacked_heatmap.html?raw";
 
-	onMount(() => {
-		// Listen for messages from iframes (if needed in the future)
-		window.addEventListener("message", handleMapMessage);
-
-		return () => {
-			window.removeEventListener("message", handleMapMessage);
-		};
-	});
-
-	function handleMapMessage() {
-		// Placeholder for processing messages if required
-	}
+	// Import the KPI JSON
+	import KpiData from "$lib/map/kpi_data.json";
 </script>
 
 <Nav title="Attackers and Defenders" next="/how">
@@ -42,10 +30,30 @@
 <div class="flex gap-8">
 	<!-- KPIs -->
 	<div class="flex flex-col gap-8">
-		<Card class="min-w-64 grow">…</Card>
-		<Card class="min-w-64 grow">…</Card>
-		<Card class="min-w-64 grow">…</Card>
-		<Card class="min-w-64 grow">…</Card>
+		<Card class="min-w-64 grow">
+			<h2>Total Attacks</h2>
+			<p class="kpi-value kpi-attackers">{KpiData["Total Attacks"]}</p>
+		</Card>
+		<Card class="min-w-64 grow">
+			<h2>Total Countries Involved</h2>
+			<p class="kpi-value">{KpiData["Total Countries Involved"]}</p>
+		</Card>
+		<Card class="min-w-64 grow">
+			<h2>Top Attacking Country</h2>
+			<p class="kpi-value kpi-attackers">
+				{KpiData["Top Attacking Country"].Country} ({KpiData[
+					"Top Attacking Country"
+				].Attacks} Attacks)
+			</p>
+		</Card>
+		<Card class="min-w-64 grow">
+			<h2>Top Attacked Country</h2>
+			<p class="kpi-value kpi-attacked">
+				{KpiData["Top Attacked Country"].Country} ({KpiData[
+					"Top Attacked Country"
+				].Attacks} Attacks)
+			</p>
+		</Card>
 	</div>
 
 	<!-- First Map: Aggressive Countries -->
@@ -98,6 +106,21 @@
 		width: 100%;
 		height: 600px;
 		border: none;
+	}
+
+	/* KPI Value Styling */
+	.kpi-value {
+		font-size: 1.8rem;
+		font-weight: bold;
+		margin-top: 8px;
+	}
+
+	.kpi-attackers {
+		color: #ff4757; /* Matches the attackers map gradient */
+	}
+
+	.kpi-attacked {
+		color: #1e90ff; /* Matches the attacked map gradient */
 	}
 
 	/* Custom gradients for each map */
