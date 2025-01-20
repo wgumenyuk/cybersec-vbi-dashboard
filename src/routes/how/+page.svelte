@@ -6,7 +6,6 @@
 	import AttackIndustry from "$components/kon/AngriffsmethodenBranchen.svelte";
 	import AttackMethods from "$components/kon/AttackMethods.svelte";
 	import AngriffsmethodenZeit from "$components/kon/AngriffsmethodenZeit.svelte";
-	import ProtocolUsage from "$components/kon/ProtocolUsage.svelte";
 	import AnomalyScores from "$components/kon/AnomalyScores.svelte";
 	import AngriffeProtokolle from "$components/kon/AngriffeProtokolle.svelte";
 </script>
@@ -56,15 +55,15 @@
 		</Card>
 	</div>
 	<div class="flex gap-8">
-		<Card class="w-full grow">
+		<Card class="h-[768px] w-full">
 			<span class="text-center dark:text-silver-400">Anomaly Scores</span>
 			<AnomalyScores />
 		</Card>
-		<Card class="w-full grow">
-			<span class="text-center dark:text-silver-400"
-				>Protocol Usage: Requests, Responses and Errors</span
-			>
-			<ProtocolUsage />
-		</Card>
+		<!-- <Card class="w-full grow"> -->
+		<!-- 	<span class="text-center dark:text-silver-400" -->
+		<!-- 		>Protocol Usage: Requests, Responses and Errors</span -->
+		<!-- 	> -->
+		<!-- 	<ProtocolUsage /> -->
+		<!-- </Card> -->
 	</div>
 </div>
