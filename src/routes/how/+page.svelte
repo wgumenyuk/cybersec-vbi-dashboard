@@ -61,7 +61,9 @@
 			<AnomalyScores />
 		</Card>
 		<Card class="w-full grow">
-			<span class="text-center dark:text-silver-400"></span>
+			<span class="text-center dark:text-silver-400"
+				>Actions Taken Against Attacks</span
+			>
 			<ActionTaken />
 		</Card>
 	</div>

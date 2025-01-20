@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { Chart } from "chart.js/auto";
 	import { onMount } from "svelte";
+	import { theme } from "$lib/theme.svelte";
 
 	let canvas: HTMLCanvasElement;
 
@@ -36,27 +37,25 @@
 			options: {
 				responsive: true,
 				plugins: {
-					title: {
-						display: true,
-						text: "Actions Taken per Attack Type"
-					},
 					legend: {
 						position: "top"
 					}
 				},
 				scales: {
 					x: {
-						stacked: true,
-						title: {
-							display: true,
-							text: "Attack Types"
-						}
+						stacked: true
 					},
 					y: {
 						stacked: true,
 						title: {
 							display: true,
-							text: "Number of Actions"
+							text: "# of Actions"
+						},
+						grid: {
+							color:
+								theme === "dark"
+									? "rgba(255, 255, 255, 0.25)"
+									: "rgba(0, 0, 0, 0.25)"
 						}
 					}
 				}
