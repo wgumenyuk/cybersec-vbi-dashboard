@@ -13,21 +13,21 @@
 				datasets: [
 					{
 						label: "Logged",
-						data: [3500, 2700, 2200, 2000],
+						data: [9500, 9700, 7700, 3000],
 						backgroundColor: "rgba(54, 162, 235, 0.5)",
 						borderColor: "rgba(54, 162, 235, 1)",
 						borderWidth: 1
 					},
 					{
 						label: "Blocked",
-						data: [4200, 3203, 4350, 1500],
+						data: [8500, 9000, 6500, 4000],
 						backgroundColor: "rgba(75, 192, 192, 0.5)",
 						borderColor: "rgba(75, 192, 192, 1)",
 						borderWidth: 1
 					},
 					{
 						label: "Ignored",
-						data: [800, 600, 930, 500],
+						data: [1307, 1728, 1384, 894],
 						backgroundColor: "rgba(255, 99, 132, 0.5)",
 						borderColor: "rgba(255, 99, 132, 1)",
 						borderWidth: 1
