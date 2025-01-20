@@ -8,6 +8,7 @@
 	import AngriffsmethodenZeit from "$components/kon/AngriffsmethodenZeit.svelte";
 	import AnomalyScores from "$components/kon/AnomalyScores.svelte";
 	import AngriffeProtokolle from "$components/kon/AngriffeProtokolle.svelte";
+	import ActionTaken from "$components/kon/ActionTaken.svelte";
 </script>
 
 <Title value="Attack Method Analysis" />
@@ -59,11 +60,9 @@
 			<span class="text-center dark:text-silver-400">Anomaly Scores</span>
 			<AnomalyScores />
 		</Card>
-		<!-- <Card class="w-full grow"> -->
-		<!-- 	<span class="text-center dark:text-silver-400" -->
-		<!-- 		>Protocol Usage: Requests, Responses and Errors</span -->
-		<!-- 	> -->
-		<!-- 	<ProtocolUsage /> -->
-		<!-- </Card> -->
+		<Card class="w-full grow">
+			<span class="text-center dark:text-silver-400"></span>
+			<ActionTaken />
+		</Card>
 	</div>
 </div>
