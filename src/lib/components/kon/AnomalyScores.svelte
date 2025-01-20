@@ -12,13 +12,13 @@
 				labels: [
 					"Malware",
 					"DDoS",
-					"Intrusion",
+					// "Intrusion",
 					"Phishing",
 					"Ransomware"
 				],
 				datasets: [
 					{
-						data: [50.13, 50.24, 49.85, 47.92, 45.67],
+						data: [54.13, 49.24, 37.92, 43.67],
 						pointRadius: 5,
 						backgroundColor: "rgba(54, 162, 235, 0.2)",
 						borderColor: "rgba(54, 162, 235, 1)"

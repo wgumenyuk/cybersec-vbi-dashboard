@@ -13,7 +13,7 @@
 				datasets: [
 					{
 						label: "Anzahl der Angriffe",
-						data: [5489, 4589, 5533, 2523],
+						data: [19307, 18000, 19428, 7894],
 						backgroundColor: [
 							"rgba(255, 99, 132, 0.5)",
 							"rgba(54, 162, 235, 0.5)",
