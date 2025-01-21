@@ -10,7 +10,7 @@ mmdb_path = 'GeoLite2-Country.mmdb'
 # Load the cybersecurity dataset
 traffic_df = pd.read_csv(csv_path)
 
-# Use the first 1000 entries for testing
+# Load Entries
 traffic_df = traffic_df.head(1000)
 
 # Initialize the GeoLite2 database reader
